@@ -1,0 +1,4000 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 AI Workshop | 神经矩阵产品墙</title>
+    <!-- 引入 html2canvas 库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- 引入 three.js 用于3D背景 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <style>
+        /* ====== CSS 重置 ====== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --neon-cyan: #00f3ff;
+            --neon-purple: #9d00ff;
+            --neon-blue: #4d7dff;
+            --neon-pink: #ff00ff;
+            --deep-blue: #0a0a2e;
+            --cosmic-purple: #1a0a2e;
+            --dark-space: #050510;
+            --deep-space: #0a0a1a;
+            --particle-glow: rgba(0, 243, 255, 0.8);
+            --stellar-glow: rgba(77, 125, 255, 0.6);
+        }
+
+        /* ====== 动画定义 ====== */
+        /* 全息投影展开动画 */
+        @keyframes hologramDeploy {
+            0% {
+                opacity: 0;
+                transform: scale(0.1) rotateY(90deg);
+                filter: blur(20px);
+            }
+            20% {
+                opacity: 0.3;
+                transform: scale(0.3) rotateY(45deg);
+                filter: blur(10px);
+            }
+            40% {
+                opacity: 0.6;
+                transform: scale(0.6) rotateY(20deg);
+                filter: blur(5px);
+            }
+            60% {
+                opacity: 0.8;
+                transform: scale(0.85) rotateY(5deg);
+                filter: blur(2px);
+            }
+            80% {
+                opacity: 1;
+                transform: scale(1.05) rotateY(-2deg);
+                filter: blur(0px);
+            }
+            90% {
+                transform: scale(0.98) rotateY(1deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotateY(0deg);
+                filter: blur(0px);
+            }
+        }
+
+        /* 星空背景动画 */
+        @keyframes starTwinkle {
+            0%, 100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.5);
+            }
+        }
+
+        @keyframes starFloat {
+            0%, 100% {
+                transform: translateY(0px) translateX(0px);
+            }
+            25% {
+                transform: translateY(-2px) translateX(1px);
+            }
+            50% {
+                transform: translateY(-1px) translateX(2px);
+            }
+            75% {
+                transform: translateY(1px) translateX(1px);
+            }
+        }
+
+        /* 霓虹启动动画 */
+        @keyframes neonStartup {
+            0% {
+                opacity: 0;
+                filter: brightness(0);
+            }
+            50% {
+                opacity: 0.5;
+                filter: brightness(2);
+            }
+            100% {
+                opacity: 1;
+                filter: brightness(1);
+            }
+        }
+
+        @keyframes matrixRain {
+            0% { transform: translateY(-100vh); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px var(--neon-cyan), 0 0 40px var(--neon-cyan); }
+            50% { box-shadow: 0 0 40px var(--neon-cyan), 0 0 60px var(--neon-purple), 0 0 80px var(--neon-pink); }
+        }
+
+        @keyframes hologram {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes particleFloat {
+            0%, 100% { transform: translate(0, 0); opacity: 0; }
+            10%, 90% { opacity: 1; }
+            50% { transform: translate(var(--tx), var(--ty)); }
+        }
+
+        @keyframes entrance {
+            0% {
+                opacity: 0;
+                transform: translateY(50px) scale(0.8);
+                filter: blur(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: blur(0);
+            }
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        /* 新增科幻动画 */
+        @keyframes energyWave {
+            0% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+            50% {
+                transform: scale(1.5);
+                opacity: 0.3;
+            }
+            100% {
+                transform: scale(2);
+                opacity: 0;
+            }
+        }
+
+        @keyframes neonFlow {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes circuitTrace {
+            0% {
+                stroke-dashoffset: 1000;
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                stroke-dashoffset: 0;
+                opacity: 0;
+            }
+        }
+
+        @keyframes hexagonPulse {
+            0%, 100% {
+                transform: scale(1) rotate(0deg);
+                opacity: 0.3;
+            }
+            50% {
+                transform: scale(1.2) rotate(180deg);
+                opacity: 0.7;
+            }
+        }
+
+        @keyframes hologramFlicker {
+            0%, 100% {
+                opacity: 1;
+            }
+            92% {
+                opacity: 1;
+            }
+            93% {
+                opacity: 0.8;
+            }
+            94% {
+                opacity: 1;
+            }
+            96% {
+                opacity: 0.9;
+            }
+            97% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes dataStream {
+            0% {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.5;
+            }
+            90% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateX(100vw);
+                opacity: 0;
+            }
+        }
+
+        @keyframes electricPulse {
+            0%, 100% {
+                box-shadow:
+                    0 0 20px rgba(0, 243, 255, 0.3),
+                    0 0 40px rgba(77, 125, 255, 0.2),
+                    inset 0 0 20px rgba(0, 243, 255, 0.1);
+            }
+            50% {
+                box-shadow:
+                    0 0 30px rgba(77, 125, 255, 0.4),
+                    0 0 60px rgba(157, 0, 255, 0.3),
+                    0 0 90px rgba(0, 243, 255, 0.2),
+                    inset 0 0 30px rgba(77, 125, 255, 0.2);
+            }
+        }
+
+        @keyframes glitch {
+            0% { transform: translate(0); }
+            20% { transform: translate(-2px, 2px); }
+            40% { transform: translate(-2px, -2px); }
+            60% { transform: translate(2px, 2px); }
+            80% { transform: translate(2px, -2px); }
+            100% { transform: translate(0); }
+        }
+
+        @keyframes dataFlow {
+            0% {
+                background-position: 0% 50%;
+                transform: translateX(-100%);
+            }
+            100% {
+                background-position: 100% 50%;
+                transform: translateX(100%);
+            }
+        }
+
+        @keyframes scanEffect {
+            0% {
+                transform: translateY(-100%) rotate(45deg);
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(100vh) rotate(45deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes borderGlow {
+            0%, 100% {
+                border-color: var(--neon-cyan);
+                box-shadow: 0 0 10px var(--neon-cyan), inset 0 0 10px rgba(0, 243, 255, 0.1);
+            }
+            33% {
+                border-color: var(--neon-purple);
+                box-shadow: 0 0 20px var(--neon-purple), inset 0 0 20px rgba(157, 0, 255, 0.2);
+            }
+            66% {
+                border-color: var(--neon-pink);
+                box-shadow: 0 0 30px var(--neon-pink), inset 0 0 30px rgba(255, 0, 255, 0.3);
+            }
+        }
+
+        @keyframes textGlitch {
+            0% { text-shadow: 2px 0 var(--neon-pink), -2px 0 var(--neon-cyan); }
+            25% { text-shadow: -2px 0 var(--neon-pink), 2px 0 var(--neon-cyan); }
+            50% { text-shadow: 2px 0 var(--neon-cyan), -2px 0 var(--neon-pink); }
+            75% { text-shadow: -2px 0 var(--neon-cyan), 2px 0 var(--neon-pink); }
+            100% { text-shadow: 2px 0 var(--neon-pink), -2px 0 var(--neon-cyan); }
+        }
+
+        @keyframes rotateIn {
+            0% {
+                transform: rotate(-180deg) scale(0);
+                opacity: 0;
+            }
+            100% {
+                transform: rotate(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes neonFlicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+                opacity: 1;
+                text-shadow:
+                    0 0 5px var(--neon-cyan),
+                    0 0 10px var(--neon-cyan),
+                    0 0 20px var(--neon-cyan),
+                    0 0 40px var(--neon-purple);
+            }
+            20%, 24%, 55% {
+                opacity: 0.6;
+                text-shadow: none;
+            }
+        }
+
+        @keyframes electricPulse {
+            0% {
+                box-shadow:
+                    0 0 5px var(--neon-blue),
+                    0 0 10px var(--neon-cyan),
+                    0 0 20px var(--neon-blue);
+            }
+            50% {
+                box-shadow:
+                    0 0 10px var(--neon-cyan),
+                    0 0 20px var(--neon-blue),
+                    0 0 40px var(--neon-purple),
+                    0 0 60px var(--neon-blue);
+            }
+            100% {
+                box-shadow:
+                    0 0 5px var(--neon-blue),
+                    0 0 10px var(--neon-cyan),
+                    0 0 20px var(--neon-blue);
+            }
+        }
+
+        /* ====== 基础样式 ====== */
+        html, body {
+            height: 100%;
+            overflow-x: hidden;
+            font-family: 'Courier New', 'Microsoft YaHei UI', monospace;
+            background: linear-gradient(135deg, #0a0a2e 0%, #150030 50%, #0a0a2e 100%);
+            color: white;
+            cursor: default;
+
+            /* 隐藏滚动条但保留滚动功能 */
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE 10+ */
+        }
+
+        /* 隐藏滚动条但保留滚动功能 - Webkit浏览器 */
+        html::-webkit-scrollbar,
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* ====== 星空背景 ====== */
+        .starfield {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 5; /* 提高层级，确保可见 */
+            will-change: transform; /* 性能优化 */
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            will-change: transform, opacity; /* 性能优化 */
+            transform: translateZ(0); /* 开启GPU加速 */
+            animation: starTwinkle var(--duration) ease-in-out infinite,
+                       starFloat var(--float-duration) ease-in-out infinite;
+            box-shadow: 0 0 var(--glow-size) currentColor;
+        }
+
+        .star.small {
+            width: 2px; /* 从1px增加到2px */
+            height: 2px;
+        }
+
+        .star.medium {
+            width: 3px; /* 从2px增加到3px */
+            height: 3px;
+        }
+
+        .star.large {
+            width: 4px; /* 从3px增加到4px */
+            height: 4px;
+        }
+
+        /* ====== 星云效果 ====== */
+        .nebula {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 2; /* 背景层2 */
+            filter: blur(80px);
+            opacity: 0.4;
+            will-change: transform;
+            transform: translateZ(0);
+        }
+
+        .nebula.blue {
+            background: radial-gradient(circle, var(--neon-blue) 0%, transparent 70%);
+        }
+
+        .nebula.purple {
+            background: radial-gradient(circle, var(--neon-purple) 0%, transparent 70%);
+        }
+
+        .nebula.pink {
+            background: radial-gradient(circle, var(--neon-purple) 0%, transparent 70%);
+        }
+
+        /* ====== 宇宙尘埃 ====== */
+        .cosmic-dust {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1; /* 背景层1 */
+            background-image:
+                radial-gradient(2px 2px at 20% 30%, rgba(77, 125, 255, 0.6), transparent),
+                radial-gradient(2px 2px at 60% 70%, rgba(157, 0, 255, 0.6), transparent),
+                radial-gradient(1px 1px at 50% 50%, rgba(0, 243, 255, 0.6), transparent),
+                radial-gradient(1px 1px at 80% 10%, rgba(77, 125, 255, 0.6), transparent),
+                radial-gradient(2px 2px at 90% 60%, rgba(157, 0, 255, 0.6), transparent),
+                radial-gradient(2px 2px at 30% 80%, rgba(255, 0, 255, 0.5), transparent),
+                radial-gradient(1px 1px at 70% 20%, rgba(0, 243, 255, 0.5), transparent),
+                radial-gradient(3px 3px at 10% 50%, rgba(77, 125, 255, 0.4), transparent),
+                radial-gradient(2px 2px at 90% 90%, rgba(157, 0, 255, 0.5), transparent),
+                radial-gradient(1px 1px at 40% 40%, rgba(0, 243, 255, 0.6), transparent);
+            background-size: 300% 300%;
+            animation: starFloat 30s linear infinite;
+        }
+
+        /* ====== 3D 背景容器 ====== */
+        #three-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* 允许点击穿透到内容层 */
+            z-index: 3; /* 背景层3 */
+            opacity: 0.7;
+        }
+
+        /* ====== 矩阵代码雨 ====== */
+        .matrix-rain {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 4; /* 背景层4 */
+            overflow: hidden;
+        }
+
+        .matrix-char {
+            position: absolute;
+            color: var(--neon-blue);
+            font-family: monospace;
+            font-size: 14px;
+            font-weight: bold;
+            text-shadow: 0 0 10px currentColor;
+            animation: matrixRain linear infinite;
+            opacity: 0;
+            will-change: transform, opacity; /* 性能优化 */
+            transform: translateZ(0); /* 开启GPU加速 */
+        }
+
+        /* ====== 全息粒子 ====== */
+        .hologram-particle {
+            position: fixed;
+            width: 3px;
+            height: 3px;
+            background: var(--particle-glow);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 5; /* 提高层级 */
+            filter: blur(1px);
+            animation: particleFloat linear infinite;
+            will-change: transform, opacity;
+            transform: translateZ(0);
+        }
+
+        /* ====== 赛博网格背景 ====== */
+        .cyber-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 6; /* 提高层级 */
+            background-image:
+                linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(rgba(157, 0, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(157, 0, 255, 0.02) 1px, transparent 1px);
+            background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+            animation: neonFlow 20s linear infinite;
+        }
+
+        /* ====== 流光线条 ====== */
+        .neon-stream {
+            position: fixed;
+            width: 2px;
+            height: 100px;
+            pointer-events: none;
+            z-index: 7; /* 提高层级 */
+            background: linear-gradient(
+                to bottom,
+                transparent,
+                var(--neon-cyan),
+                var(--neon-purple),
+                var(--neon-pink),
+                transparent
+            );
+            animation: dataStream 3s linear infinite;
+            opacity: 0.3;
+        }
+
+        /* ====== 全息扫描线 ====== */
+        .hologram-scan {
+            position: fixed;
+            width: 100%;
+            height: 3px;
+            pointer-events: none;
+            z-index: 8; /* 提高层级 */
+            background: linear-gradient(
+                90deg,
+                transparent,
+                var(--neon-cyan),
+                var(--neon-purple),
+                var(--neon-pink),
+                transparent
+            );
+            animation: scanEffect 8s linear infinite;
+            opacity: 0.2;
+            filter: blur(2px);
+        }
+
+        /* ====== 能量波纹 ====== */
+        .energy-ripple {
+            position: fixed;
+            border: 2px solid var(--neon-cyan);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 10; /* 提高层级 */
+            animation: energyWave 4s ease-out infinite;
+        }
+
+        /* ====== 数据流动画层 ====== */
+        .data-flow-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 11; /* 提高层级 */
+            overflow: hidden;
+        }
+
+        /* ====== 登录界面 ====== */
+        #loginContainer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(
+                circle at 20% 30%,
+                rgba(157, 0, 255, 0.1) 0%,
+                transparent 50%
+            );
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: entrance 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .neural-network {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .neuron {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: var(--neon-cyan);
+            border-radius: 50%;
+            box-shadow: 0 0 20px currentColor;
+            animation: pulse 2s infinite;
+        }
+
+        .synapse {
+            position: absolute;
+            background: var(--neon-cyan);
+            height: 2px;
+            transform-origin: 0 0;
+            box-shadow: 0 0 10px currentColor;
+        }
+
+        .login-holo {
+            background: linear-gradient(
+                135deg,
+                rgba(0, 243, 255, 0.15),
+                rgba(157, 0, 255, 0.15),
+                rgba(255, 0, 255, 0.15)
+            );
+            backdrop-filter: blur(30px);
+            border: 2px solid rgba(0, 243, 255, 0.5);
+            border-radius: 30px;
+            padding: 3rem;
+            width: 90%;
+            max-width: 500px;
+            box-shadow:
+                0 0 80px rgba(0, 243, 255, 0.4),
+                0 0 120px rgba(157, 0, 255, 0.3),
+                0 0 160px rgba(255, 0, 255, 0.2),
+                inset 0 0 60px rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            animation: electricPulse 3s infinite, entrance 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            flex-shrink: 0;
+        }
+
+        .login-lang-switch {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            display: flex;
+            gap: 0.5rem;
+            z-index: 10;
+        }
+
+        .login-holo::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(
+                45deg,
+                var(--neon-cyan),
+                var(--neon-purple),
+                var(--neon-pink),
+                var(--neon-cyan),
+                var(--neon-purple)
+            );
+            background-size: 400% 400%;
+            border-radius: 32px;
+            z-index: -1;
+            animation: hologram 3s infinite linear, borderGlow 6s infinite;
+            opacity: 0.7;
+        }
+
+        .login-holo::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(0, 243, 255, 0.1),
+                transparent
+            );
+            transform: rotate(45deg);
+            animation: scanEffect 4s infinite linear;
+            pointer-events: none;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            animation: float 6s ease-in-out infinite, rotateIn 1s ease-out, neonFlicker 4s infinite;
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple), var(--neon-pink));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 30px rgba(0, 243, 255, 0.8));
+            animation: float 6s ease-in-out infinite, neonFlicker 4s infinite;
+        }
+
+        .logo-text {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple), var(--neon-pink), var(--neon-cyan));
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            position: relative;
+            margin-bottom: 0.5rem;
+            animation: textGlitch 3s infinite, hologram 5s ease infinite;
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+        }
+
+        .logo-subtitle {
+            font-size: 1.1rem;
+            color: var(--neon-cyan);
+            text-transform: uppercase;
+            letter-spacing: 8px;
+            opacity: 0.9;
+            position: relative;
+            animation: neonFlicker 5s infinite;
+            text-shadow:
+                0 0 5px var(--neon-cyan),
+                0 0 10px var(--neon-cyan),
+                0 0 20px var(--neon-purple);
+        }
+
+        .login-form {
+            animation: entrance 1s 0.5s both;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--neon-cyan);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .cyber-input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            border-radius: 10px;
+            color: white;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .cyber-input:focus {
+            outline: none;
+            border-color: var(--neon-cyan);
+            box-shadow:
+                0 0 20px rgba(0, 243, 255, 0.3),
+                inset 0 0 20px rgba(0, 243, 255, 0.1);
+        }
+
+        .cyber-select {
+            background: linear-gradient(
+                135deg,
+                rgba(0, 243, 255, 0.1),
+                rgba(157, 0, 255, 0.1)
+            );
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(0, 243, 255, 0.4);
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            width: 100%;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            appearance: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow:
+                0 0 20px rgba(0, 243, 255, 0.1),
+                inset 0 0 20px rgba(0, 0, 0, 0.2);
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2300f3ff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1.2em;
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.5);
+        }
+
+        .cyber-select:hover {
+            border-color: var(--neon-cyan);
+            box-shadow:
+                0 0 30px rgba(0, 243, 255, 0.3),
+                inset 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .cyber-select:focus {
+            outline: none;
+            border-color: var(--neon-cyan);
+            box-shadow:
+                0 0 40px rgba(0, 243, 255, 0.4),
+                0 0 60px rgba(157, 0, 255, 0.2),
+                inset 0 0 20px rgba(0, 243, 255, 0.1);
+        }
+
+        .cyber-select option {
+            background: var(--deep-space);
+            color: white;
+            padding: 1rem;
+            border: none;
+        }
+
+        .cyber-btn {
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple), var(--neon-pink));
+            background-size: 200% 200%;
+            border: 2px solid rgba(0, 243, 255, 0.5);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            margin-top: 1rem;
+            box-shadow:
+                0 0 20px rgba(0, 243, 255, 0.3),
+                inset 0 0 20px rgba(0, 243, 255, 0.1);
+            animation: electricPulse 3s infinite;
+        }
+
+        .cyber-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            background-position: 100% 0;
+            box-shadow:
+                0 15px 40px rgba(0, 243, 255, 0.5),
+                0 0 60px rgba(157, 0, 255, 0.4),
+                0 0 80px rgba(255, 0, 255, 0.3),
+                inset 0 0 30px rgba(0, 243, 255, 0.2);
+            border-color: var(--neon-cyan);
+        }
+
+        .cyber-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.4),
+                transparent
+            );
+            transition: 0.6s;
+        }
+
+        .cyber-btn:hover::before {
+            left: 100%;
+        }
+
+        .cyber-btn:active {
+            transform: translateY(-1px) scale(0.98);
+            box-shadow:
+                0 5px 20px rgba(0, 243, 255, 0.4),
+                0 0 40px rgba(157, 0, 255, 0.3);
+        }
+
+        /* ====== 主应用界面 ====== */
+        #appContainer {
+            display: none;
+            min-height: 100vh;
+            position: relative;
+            z-index: 100; /* 确保在所有背景层之上 */
+            animation: entrance 1s ease-out;
+        }
+
+        /* 神经网格背景 */
+        .neural-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(0, 243, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 243, 255, 0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: 0; /* 提高层级 */
+            opacity: 0.3;
+        }
+
+        /* ====== 头部 ====== */
+        .cyber-header {
+            padding: 2rem;
+            background: linear-gradient(
+                to bottom,
+                rgba(5, 5, 16, 0.9),
+                rgba(5, 5, 16, 0.5)
+            );
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 243, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-glow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(
+                circle at 50% 0%,
+                rgba(0, 243, 255, 0.1),
+                transparent 70%
+            );
+            pointer-events: none;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .header-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .user-badge {
+            padding: 0.5rem 1rem;
+            background: rgba(0, 243, 255, 0.1);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            animation: pulse 2s infinite;
+        }
+
+        /* ====== 管理员面板 ====== */
+        .admin-panel {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: linear-gradient(
+                135deg,
+                rgba(0, 243, 255, 0.05),
+                rgba(157, 0, 255, 0.05)
+            );
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            border-radius: 20px;
+            display: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .admin-panel.active {
+            display: block;
+            animation: entrance 0.5s ease-out;
+        }
+
+        .panel-glow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(
+                circle at 50% 50%,
+                rgba(0, 243, 255, 0.1),
+                transparent 70%
+            );
+            pointer-events: none;
+        }
+
+        /* ====== 产品网格 ====== */
+        .products-container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .hologram-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            perspective: 1000px;
+        }
+
+        /* ====== 产品卡片 ====== */
+        .holo-card {
+            background: linear-gradient(
+                135deg,
+                rgba(0, 243, 255, 0.12),
+                rgba(77, 125, 255, 0.1),
+                rgba(157, 0, 255, 0.08)
+            );
+            backdrop-filter: blur(30px);
+            border: 2px solid rgba(77, 125, 255, 0.4);
+            border-radius: 24px;
+            padding: 1.8rem;
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: hologramDeploy 1s both, electricPulse 4s infinite, hologramFlicker 8s infinite;
+            animation-delay: calc(var(--card-index) * 0.15s);
+            box-shadow:
+                0 8px 32px rgba(0, 0, 0, 0.4),
+                0 0 30px rgba(77, 125, 255, 0.2),
+                inset 0 0 60px rgba(77, 125, 255, 0.05);
+        }
+
+        .holo-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(
+                45deg,
+                var(--neon-cyan),
+                var(--neon-blue),
+                var(--neon-purple),
+                var(--neon-cyan)
+            );
+            background-size: 400% 400%;
+            border-radius: 26px;
+            z-index: -1;
+            opacity: 0.6;
+            transition: opacity 0.4s ease;
+            animation: hologram 8s infinite linear;
+        }
+
+        .holo-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(77, 125, 255, 0.2),
+                rgba(157, 0, 255, 0.15),
+                transparent
+            );
+            transition: left 1s ease;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* 卡片扫描线效果 */
+        .holo-card .card-scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                var(--neon-cyan),
+                var(--neon-blue),
+                var(--neon-purple),
+                transparent
+            );
+            animation: scanEffect 4s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 2;
+        }
+
+        .holo-card:hover .card-scan-line {
+            opacity: 0.6;
+        }
+
+        /* 卡片角标装饰 */
+        .holo-card .corner-decoration {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--neon-blue);
+            opacity: 0.5;
+            transition: all 0.3s ease;
+        }
+
+        .holo-card .corner-tl {
+            top: 10px;
+            left: 10px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .holo-card .corner-tr {
+            top: 10px;
+            right: 10px;
+            border-left: none;
+            border-bottom: none;
+        }
+
+        .holo-card .corner-bl {
+            bottom: 10px;
+            left: 10px;
+            border-right: none;
+            border-top: none;
+        }
+
+        .holo-card .corner-br {
+            bottom: 10px;
+            right: 10px;
+            border-left: none;
+            border-top: none;
+        }
+
+        .holo-card:hover {
+            transform: translateY(-20px) rotateX(8deg) rotateY(-8deg) scale(1.05);
+            box-shadow:
+                0 40px 80px rgba(0, 0, 0, 0.7),
+                0 0 100px rgba(77, 125, 255, 0.5),
+                0 0 150px rgba(0, 243, 255, 0.4),
+                0 0 200px rgba(157, 0, 255, 0.3),
+                inset 0 0 60px rgba(77, 125, 255, 0.1);
+            border-color: var(--neon-blue);
+        }
+
+        .holo-card:hover::before {
+            opacity: 1;
+            background-position: 100% 50%;
+        }
+
+        .holo-card:hover::after {
+            left: 100%;
+        }
+
+        .holo-card:hover .corner-decoration {
+            opacity: 1;
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        .card-preview {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #0a0a1a, #050510);
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0, 243, 255, 0.1);
+        }
+
+        .card-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .holo-card:hover .card-preview img {
+            transform: scale(1.05);
+        }
+
+        .card-content h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-blue), var(--neon-purple));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: hologram 5s ease infinite;
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .holo-card:hover .card-content h3 {
+            animation: hologram 3s ease infinite;
+            background-position: 100% 0;
+            text-shadow:
+                2px 0 0 rgba(255, 0, 255, 0.6),
+                -2px 0 0 rgba(77, 125, 255, 0.6),
+                4px 0 0 rgba(157, 0, 255, 0.4),
+                -4px 0 0 rgba(0, 243, 255, 0.4);
+            filter: brightness(1.1);
+        }
+
+        .card-content p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            min-height: 60px;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(0, 243, 255, 0.15);
+        }
+
+        .visit-link {
+            color: #00f0ff;
+            text-decoration: none;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            background: rgba(0, 243, 255, 0.25);
+            border: 1px solid rgba(0, 243, 255, 0.5);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow:
+                0 0 10px rgba(0, 243, 255, 0.3),
+                0 0 20px rgba(0, 243, 255, 0.2),
+                inset 0 0 10px rgba(0, 243, 255, 0.1);
+            text-shadow:
+                0 0 5px rgba(0, 243, 255, 0.8),
+                0 0 10px rgba(0, 243, 255, 0.5),
+                0 0 15px rgba(77, 125, 255, 0.5);
+        }
+
+        .visit-link:hover {
+            background: rgba(77, 125, 255, 0.3);
+            transform: translateX(8px) scale(1.05);
+            border: 1px solid var(--neon-blue);
+            box-shadow:
+                0 0 20px rgba(77, 125, 255, 0.4),
+                0 0 40px rgba(77, 125, 255, 0.2),
+                inset 0 0 20px rgba(77, 125, 255, 0.1);
+        }
+
+        .card-actions {
+            display: none;
+            gap: 0.5rem;
+        }
+
+        .holo-card.admin-mode .card-actions {
+            display: flex;
+        }
+
+        .cyber-icon-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(77, 125, 255, 0.4);
+            color: var(--neon-blue);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            animation: electricPulse 4s infinite;
+        }
+
+        .cyber-icon-btn:hover {
+            background: rgba(77, 125, 255, 0.3);
+            transform: scale(1.2) rotate(360deg);
+            border-color: var(--neon-blue);
+            box-shadow:
+                0 0 20px var(--neon-blue),
+                0 0 40px rgba(77, 125, 255, 0.3);
+        }
+
+        /* ====== 模态框 ====== */
+        .cyber-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 5, 16, 0.9);
+            backdrop-filter: blur(10px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .modal-backdrop {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        .cyber-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-holo {
+            background-color: rgba(5, 5, 16, 0.98);
+            background-image: linear-gradient(
+                135deg,
+                rgba(0, 243, 255, 0.03),
+                rgba(157, 0, 255, 0.03)
+            );
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            border-radius: 25px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2.5rem;
+            position: relative;
+            z-index: 2;
+            animation: entrance 0.5s ease-out;
+            box-shadow:
+                0 0 100px rgba(0, 243, 255, 0.2),
+                0 0 200px rgba(157, 0, 255, 0.1),
+                inset 0 0 100px rgba(255, 255, 255, 0.05);
+
+            /* 隐藏滚动条但保留滚动功能 */
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE 10+ */
+        }
+
+        /* 隐藏滚动条但保留滚动功能 - Webkit浏览器 */
+        .modal-holo::-webkit-scrollbar {
+            display: none;
+        }
+
+        .modal-holo::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(
+                45deg,
+                var(--neon-cyan),
+                var(--neon-purple),
+                var(--neon-pink),
+                var(--neon-cyan)
+            );
+            border-radius: 27px;
+            z-index: -1;
+            opacity: 0.3;
+            animation: hologram 4s infinite linear;
+            pointer-events: none;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .modal-header h2 {
+            font-size: 1.8rem;
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .close-holo {
+            background: none;
+            border: none;
+            color: var(--neon-cyan);
+            font-size: 2rem;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .close-holo:hover {
+            background: rgba(255, 0, 0, 0.2);
+            transform: rotate(90deg);
+        }
+
+        /* ====== 预览区域 ====== */
+        .preview-container {
+            margin: 2rem 0;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 243, 255, 0.3);
+            background: rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .preview-header {
+            padding: 1rem 1.5rem;
+            background: linear-gradient(
+                90deg,
+                rgba(0, 243, 255, 0.1),
+                rgba(157, 0, 255, 0.1)
+            );
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .preview-frame {
+            width: 100%;
+            height: 400px;
+            border: none;
+            background: white;
+        }
+
+        .preview-placeholder {
+            width: 100%;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(45deg, #0a0a1a, #050510);
+            color: var(--neon-cyan);
+        }
+
+        .preview-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        /* ====== 按钮样式 ====== */
+        .btn-holo {
+            padding: 0.8rem 1.5rem;
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple));
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-holo:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                0 10px 30px rgba(0, 243, 255, 0.4),
+                0 0 50px rgba(157, 0, 255, 0.3);
+        }
+
+        .btn-holo:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #666, #333);
+        }
+
+        /* ====== 加载动画 ====== */
+        .cyber-loading {
+            display: inline-block;
+            position: relative;
+            width: 40px;
+            height: 40px;
+        }
+
+        .cyber-loading div {
+            position: absolute;
+            border: 4px solid var(--neon-cyan);
+            opacity: 1;
+            border-radius: 50%;
+            animation: cyber-loading 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+        }
+
+        .cyber-loading div:nth-child(2) {
+            animation-delay: -0.5s;
+        }
+
+        @keyframes cyber-loading {
+            0% {
+                top: 20px;
+                left: 20px;
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+            100% {
+                top: 0;
+                left: 0;
+                width: 40px;
+                height: 40px;
+                opacity: 0;
+            }
+        }
+
+        /* ====== 响应式设计 ====== */
+        @media (max-width: 768px) {
+            .hologram-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .header-title {
+                font-size: 1.2rem;
+            }
+
+            .modal-holo {
+                padding: 1.5rem;
+                width: 95%;
+                max-height: 85vh;
+            }
+
+            .preview-frame {
+                height: 300px;
+            }
+
+            .preview-placeholder {
+                height: 300px;
+            }
+
+            .login-holo {
+                padding: 2rem;
+                width: 95%;
+            }
+
+            .logo-text {
+                font-size: 1.8rem;
+            }
+
+            .cyber-btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 0.9rem;
+            }
+
+            .header-controls {
+                flex-direction: column;
+                width: 100%;
+            }
+
+            .user-badge {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .cyber-toast {
+                left: 1rem;
+                right: 1rem;
+                bottom: 1rem;
+                max-width: none;
+            }
+
+            .preview-header {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .preview-header div {
+                width: 100%;
+            }
+
+            .preview-header button {
+                width: 100%;
+                margin: 0.25rem 0;
+            }
+
+            .card-preview {
+                height: 160px;
+            }
+
+            .holo-card {
+                padding: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-title {
+                font-size: 1rem;
+                letter-spacing: 1px;
+            }
+
+            .logo-text {
+                font-size: 1.5rem;
+            }
+
+            .modal-holo {
+                padding: 1rem;
+            }
+
+            .btn-holo {
+                padding: 0.7rem 1rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* ====== 消息提示 ====== */
+        .cyber-toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            padding: 1rem 1.5rem;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--neon-cyan);
+            border-radius: 10px;
+            color: white;
+            font-weight: 500;
+            z-index: 3000;
+            animation: entrance 0.3s ease-out;
+            max-width: 300px;
+            box-shadow: 0 0 30px rgba(0, 243, 255, 0.3);
+        }
+
+        .cyber-toast.success {
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 30px rgba(77, 125, 255, 0.4);
+        }
+
+        .cyber-toast.error {
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.3);
+        }
+
+        /* ====== 空状态 ====== */
+        .cyber-empty {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(
+                135deg,
+                rgba(0, 243, 255, 0.05),
+                rgba(157, 0, 255, 0.05)
+            );
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 243, 255, 0.2);
+            border-radius: 20px;
+            margin: 2rem;
+            animation: pulse 3s infinite;
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* ====== 页脚 ====== */
+        .cyber-footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+            border-top: 1px solid rgba(0, 243, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .footer-glow {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(
+                circle at 50% 100%,
+                rgba(0, 243, 255, 0.05),
+                transparent 70%
+            );
+            pointer-events: none;
+        }
+
+        /* ====== 设置界面 ====== */
+        .settings-holo {
+            max-width: 600px;
+            animation: hologramDeploy 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .settings-title {
+            background: linear-gradient(45deg, var(--neon-cyan), var(--neon-blue), var(--neon-purple));
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: hologram 3s ease infinite;
+        }
+
+        .settings-content {
+            padding: 1.5rem;
+        }
+
+        .setting-item {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(
+                135deg,
+                rgba(77, 125, 255, 0.1),
+                rgba(157, 0, 255, 0.08)
+            );
+            border: 2px solid rgba(77, 125, 255, 0.3);
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            animation: hologramDeploy 0.6s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+        }
+
+        .setting-item:nth-child(1) { animation-delay: 0.1s; }
+        .setting-item:nth-child(2) { animation-delay: 0.2s; }
+        .setting-item:nth-child(3) { animation-delay: 0.3s; }
+
+        .setting-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(77, 125, 255, 0.1),
+                transparent
+            );
+            transition: left 0.6s ease;
+        }
+
+        .setting-item:hover::before {
+            left: 100%;
+        }
+
+        .setting-item:hover {
+            border-color: var(--neon-blue);
+            box-shadow:
+                0 0 20px rgba(77, 125, 255, 0.3),
+                inset 0 0 20px rgba(77, 125, 255, 0.05);
+            transform: translateX(5px);
+        }
+
+        .setting-icon {
+            font-size: 2.5rem;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, rgba(77, 125, 255, 0.2), rgba(157, 0, 255, 0.1));
+            border-radius: 12px;
+            border: 1px solid rgba(77, 125, 255, 0.3);
+            flex-shrink: 0;
+        }
+
+        .setting-info {
+            flex: 1;
+        }
+
+        .setting-info h3 {
+            color: var(--neon-cyan);
+            font-size: 1.1rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .setting-info p {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .setting-control {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .lang-btn {
+            padding: 0.5rem 1rem;
+            background: rgba(77, 125, 255, 0.1);
+            border: 2px solid rgba(77, 125, 255, 0.3);
+            border-radius: 8px;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Courier New', monospace;
+        }
+
+        .lang-btn:hover {
+            background: rgba(77, 125, 255, 0.2);
+            border-color: var(--neon-blue);
+        }
+
+        .lang-btn.active {
+            background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
+            border-color: var(--neon-blue);
+            color: white;
+            box-shadow: 0 0 15px rgba(77, 125, 255, 0.4);
+        }
+
+        /* ====== 科幻风格滚动条 ====== */
+        /* 滚动条整体 - 全息轨道效果 */
+        ::-webkit-scrollbar {
+            width: 12px;
+            height: 12px;
+        }
+
+        /* 滚动条轨道 - 深邃太空背景 */
+        ::-webkit-scrollbar-track {
+            background: linear-gradient(
+                180deg,
+                rgba(10, 10, 30, 0.9),
+                rgba(20, 10, 40, 0.9)
+            );
+            border-radius: 10px;
+            box-shadow:
+                inset 0 0 10px rgba(0, 243, 255, 0.1),
+                inset 0 0 20px rgba(157, 0, 255, 0.05);
+            border: 1px solid rgba(77, 125, 255, 0.1);
+        }
+
+        /* 滚动条滑块 - 霓虹全息效果 */
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(
+                180deg,
+                var(--neon-cyan),
+                var(--neon-blue),
+                var(--neon-purple),
+                var(--neon-pink)
+            );
+            background-size: 100% 300%;
+            border-radius: 10px;
+            box-shadow:
+                0 0 10px var(--neon-cyan),
+                0 0 20px var(--neon-blue),
+                inset 0 0 5px rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(0, 243, 255, 0.5);
+            animation: hologram 3s ease infinite;
+            transition: all 0.3s ease;
+        }
+
+        /* 滚动条滑块悬停 - 能量增强效果 */
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(
+                180deg,
+                var(--neon-cyan),
+                var(--neon-blue),
+                var(--neon-purple),
+                var(--neon-pink)
+            );
+            background-position: 100% 0;
+            box-shadow:
+                0 0 15px var(--neon-cyan),
+                0 0 30px var(--neon-blue),
+                0 0 45px var(--neon-purple),
+                inset 0 0 8px rgba(255, 255, 255, 0.5);
+            border-color: var(--neon-cyan);
+            transform: scaleX(1.1);
+        }
+
+        /* 滚动条滑块激活 - 能量爆发效果 */
+        ::-webkit-scrollbar-thumb:active {
+            background: linear-gradient(
+                90deg,
+                var(--neon-pink),
+                var(--neon-purple),
+                var(--neon-blue),
+                var(--neon-cyan)
+            );
+            box-shadow:
+                0 0 20px var(--neon-cyan),
+                0 0 40px var(--neon-blue),
+                0 0 60px var(--neon-purple),
+                0 0 80px var(--neon-pink),
+                inset 0 0 10px rgba(255, 255, 255, 0.6);
+            border-color: var(--neon-pink);
+            transform: scaleX(1.15);
+        }
+
+        /* 滚动条角落 - 能量汇聚点 */
+        ::-webkit-scrollbar-corner {
+            background: linear-gradient(
+                135deg,
+                rgba(10, 10, 30, 0.9),
+                rgba(20, 10, 40, 0.9)
+            );
+            border-radius: 0 0 10px 0;
+            box-shadow: inset 0 0 15px rgba(77, 125, 255, 0.2);
+        }
+
+        /* Firefox 滚动条样式 */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color:
+                linear-gradient(180deg, var(--neon-cyan), var(--neon-blue), var(--neon-purple))
+                rgba(10, 10, 30, 0.9);
+        }
+
+        /* 产品预览区域滚动条 */
+        .preview-placeholder::-webkit-scrollbar,
+        .cyber-empty::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .preview-placeholder::-webkit-scrollbar-track,
+        .cyber-empty::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 8px;
+        }
+
+        .preview-placeholder::-webkit-scrollbar-thumb,
+        .cyber-empty::-webkit-scrollbar-thumb {
+            background: linear-gradient(
+                180deg,
+                var(--neon-blue),
+                var(--neon-purple)
+            );
+            border-radius: 8px;
+            box-shadow:
+                0 0 10px var(--neon-blue),
+                0 0 20px var(--neon-purple);
+            border: 1px solid rgba(0, 243, 255, 0.5);
+        }
+
+    </style>
+</head>
+<body>
+    <!-- 宇宙尘埃 -->
+    <div class="cosmic-dust"></div>
+
+    <!-- 星云效果 -->
+    <div class="nebula blue" style="width: 800px; height: 800px; top: -300px; left: -300px;"></div>
+    <div class="nebula purple" style="width: 700px; height: 700px; bottom: -250px; right: -250px;"></div>
+    <div class="nebula purple" style="width: 600px; height: 600px; top: 50%; left: 50%; transform: translate(-50%, -50%);"></div>
+
+    <!-- 3D 背景 -->
+    <div id="three-bg"></div>
+
+    <!-- 矩阵代码雨 -->
+    <div class="matrix-rain" id="matrixRain"></div>
+
+    <!-- 全息粒子 -->
+    <div class="hologram-particles"></div>
+
+    <!-- 赛博网格背景 -->
+    <div class="cyber-grid"></div>
+
+    <!-- 全息扫描线 -->
+    <div class="hologram-scan"></div>
+
+    <!-- 数据流动画层 -->
+    <div class="data-flow-layer" id="dataFlowLayer"></div>
+
+    <!-- 神经网格 -->
+    <div class="neural-grid"></div>
+
+    <!-- 登录界面 -->
+    <div id="loginContainer">
+        <!-- 神经网络动画 -->
+        <div class="neural-network" id="neuralNetwork"></div>
+
+        <div class="login-holo">
+            <div class="logo-container">
+                <div class="logo-icon">⚡</div>
+                <h1 class="logo-text">NEURAL MATRIX</h1>
+                <div class="logo-subtitle">AI Workshop Product Wall</div>
+            </div>
+
+            <!-- 语言切换 -->
+            <div class="login-lang-switch">
+                <button id="loginLangZhBtn" class="lang-btn active">中文</button>
+                <button id="loginLangEnBtn" class="lang-btn">English</button>
+            </div>
+
+            <div class="login-form">
+                <div class="form-group">
+                    <label class="form-label">访问模式</label>
+                    <select id="userType" class="cyber-select">
+                        <option value="guest">🧑‍💼 访客模式 - 仅浏览</option>
+                        <option value="admin">🤖 管理员模式 - 完全控制</option>
+                    </select>
+                </div>
+
+                <div id="adminLogin" style="display: none;">
+                    <div class="form-group">
+                        <label class="form-label">神经密钥</label>
+                        <input type="password" id="adminPassword" class="cyber-input"
+                               placeholder="输入管理员密码">
+                    </div>
+                </div>
+
+                <button id="enterBtn" class="cyber-btn">
+                    🔓 激活系统
+                </button>
+
+                <div style="margin-top: 2rem; padding: 1rem; background: rgba(0, 243, 255, 0.1); border-radius: 10px;">
+                    <div style="color: var(--neon-cyan); font-size: 0.9rem; text-align: center;">
+                        ⚡ <strong>系统准备就绪</strong><br>
+                        <span style="color: rgba(255,255,255,0.7); font-size: 0.8rem;">
+                            神经接口已连接，准备加载产品矩阵
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主应用界面 -->
+    <div id="appContainer">
+        <!-- 头部 -->
+        <header class="cyber-header">
+            <div class="header-glow"></div>
+            <div class="header-content">
+                <h1 class="header-title">
+                    <span style="color: var(--neon-cyan);">AI</span> WORKSHOP
+                    <span style="color: var(--neon-purple);">产品矩阵</span>
+                </h1>
+
+                <div class="header-controls">
+                    <div id="userStatus" class="user-badge">
+                        <span id="userIcon">👤</span>
+                        <span id="userText">访客模式</span>
+                    </div>
+                    <button id="addProductBtn" class="btn-holo" style="display: none;">
+                        <span>+</span> <span data-i18n="newProduct">新建产品</span>
+                    </button>
+                    <button id="settingsBtn" class="btn-holo" onclick="SettingsManager.openSettings()">
+                        <span data-i18n="settings">⚙️ 设置</span>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- 管理员面板 -->
+        <div id="adminBar" class="admin-panel">
+            <div class="panel-glow"></div>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <div>
+                    <div style="color: var(--neon-cyan); font-size: 1.2rem; font-weight: bold;">
+                        🤖 <span id="adminStatus">管理员控制面板 - 数据已自动同步</span>
+                    </div>
+                    <div style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-top: 0.5rem;" data-i18n="adminPanelSubtitle">
+                        神经密钥已验证 | 权限等级：最高 | 所有设备实时共享数据
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 产品网格 -->
+        <div class="products-container">
+            <div id="productsGrid" class="hologram-grid">
+                <!-- 产品卡片动态生成 -->
+            </div>
+
+            <!-- 空状态 -->
+            <div id="emptyState" class="cyber-empty" style="display: none;">
+                <div class="empty-icon">📡</div>
+                <h3 style="color: var(--neon-cyan); margin-bottom: 1rem;">矩阵信号丢失</h3>
+                <p style="color: rgba(255,255,255,0.7);">
+                    未检测到产品数据<br>
+                    点击"新建产品"开始构建产品矩阵
+                </p>
+            </div>
+        </div>
+
+        <!-- 页脚 -->
+        <footer class="cyber-footer">
+            <div class="footer-glow"></div>
+            <div style="position: relative; z-index: 1;">
+                <div style="color: var(--neon-cyan); margin-bottom: 0.5rem; font-size: 0.9rem;">
+                    ⚡ 神经矩阵系统 v2.0
+                </div>
+            </div>
+        </footer>
+
+        <!-- 产品模态框 -->
+        <div id="productModal" class="cyber-modal">
+            <div class="modal-holo" style="background: rgb(5, 5, 22);">
+                <div class="modal-header">
+                    <h2 id="modalTitle">🧠 新建神经节点</h2>
+                    <button class="close-holo" id="closeModalBtn">✕</button>
+                </div>
+
+                <form id="productForm">
+                    <div class="form-group">
+                        <label class="form-label" data-i18n="productName">节点名称</label>
+                        <input type="text" id="productName" class="cyber-input"
+                               placeholder="输入产品名称" data-placeholder-i18n="productName" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" data-i18n="productUrl">神经链接</label>
+                        <input type="url" id="productUrl" class="cyber-input"
+                               placeholder="https://" required>
+                    </div>
+
+                    <!-- 预览区域 -->
+                    <div class="preview-container">
+                        <div class="preview-header">
+                            <span style="color: var(--neon-cyan);" data-i18n="previewInterface">🌐 神经预览接口</span>
+                            <div>
+                                <button type="button" id="retryScreenshotBtn" class="btn-holo btn-small" style="display: none;" data-i18n="retryScreenshot">
+                                    🔄 不满意？重新截图
+                                </button>
+                            </div>
+                        </div>
+                        <div id="previewArea" class="preview-placeholder">
+                            <div style="font-size: 4rem; margin-bottom: 1rem;">🖥️</div>
+                            <p style="color: var(--neon-cyan); margin-bottom: 0.5rem;" data-i18n="waitingForUrl">等待输入链接</p>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;" data-i18n="autoScreenshot">
+                                输入网址后将自动截图
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" data-i18n="productDesc">节点描述</label>
+                        <textarea id="productDesc" class="cyber-input"
+                                  placeholder="描述产品功能和特点" data-placeholder-i18n="productDesc"
+                                  maxlength="150" rows="3" required></textarea>
+                        <div style="text-align: right; margin-top: 0.5rem; color: var(--neon-cyan); font-size: 0.9rem;">
+                            <span id="charCount">0</span>/150 <span data-i18n="characters">字符</span>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem;">
+                        <button type="button" id="cancelBtn" class="btn-holo btn-secondary" data-i18n="cancel">取消</button>
+                        <button type="submit" id="saveBtn" class="btn-holo" data-i18n="save">
+                            💾 保存节点
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- 认证模态框 -->
+        <div id="authModal" class="cyber-modal">
+            <div class="modal-holo" style="max-width: 500px; background: rgb(5, 5, 22);">
+                <div class="modal-header">
+                    <h2 id="authTitle">🔐 系统控制台</h2>
+                    <button class="close-holo" id="closeAuthBtn">✕</button>
+                </div>
+
+                <div id="authContent">
+                    <!-- 动态内容 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 设置界面 -->
+    <div id="settingsModal" class="cyber-modal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-holo settings-holo" style="background: rgb(5, 5, 22);">
+            <div class="modal-header">
+                <h2 id="settingsTitle" class="settings-title">⚙️ 系统设置</h2>
+                <button class="close-holo" id="closeSettingsBtn">✕</button>
+            </div>
+
+            <div class="settings-content">
+                <!-- 语言切换 -->
+                <div class="setting-item">
+                    <div class="setting-icon">🌐</div>
+                    <div class="setting-info">
+                        <h3 data-lang="language">语言 / Language</h3>
+                        <p data-lang="languageDesc">选择界面显示语言</p>
+                    </div>
+                    <div class="setting-control">
+                        <button id="langZhBtn" class="lang-btn active">中文</button>
+                        <button id="langEnBtn" class="lang-btn">English</button>
+                    </div>
+                </div>
+
+                <!-- 修改密码（仅管理员） -->
+                <div class="setting-item" id="changePasswordItem" style="display: none;">
+                    <div class="setting-icon">🔑</div>
+                    <div class="setting-info">
+                        <h3 data-i18n="changePassword">修改密钥</h3>
+                        <p data-i18n="changePasswordDesc">更新管理员访问密钥</p>
+                    </div>
+                    <div class="setting-control">
+                        <button id="changePasswordBtn" class="btn-holo btn-small">
+                            <span data-i18n="changePasswordAction">修改</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 退出登录 -->
+                <div class="setting-item">
+                    <div class="setting-icon">🚪</div>
+                    <div class="setting-info">
+                        <h3 data-i18n="logout">退出登录</h3>
+                        <p data-i18n="logoutDesc">返回登录界面</p>
+                    </div>
+                    <div class="setting-control">
+                        <button id="logoutBtn" class="btn-holo btn-small">
+                            <span data-i18n="confirmLogout">退出</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 修改密码模态框 -->
+    <div id="changePasswordModal" class="cyber-modal">
+        <div class="modal-backdrop"></div>
+        <div class="modal-holo" style="max-width: 500px; background: rgb(5, 5, 22);">
+            <div class="modal-header">
+                <h2 class="settings-title">🔑 <span data-i18n="changePasswordTitle">修改神经密钥</span></h2>
+                <button class="close-holo" id="closeChangePasswordModalBtn">✕</button>
+            </div>
+            <form id="changePasswordForm" style="padding: 1rem 0;">
+                <div class="form-group">
+                    <label class="form-label" data-i18n="currentPassword">当前密钥</label>
+                    <input type="password" id="currentPassword" class="cyber-input"
+                           placeholder="输入当前密码" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label" data-i18n="newPassword">新密钥</label>
+                    <input type="password" id="newPassword" class="cyber-input"
+                           placeholder="输入新密码（至少6位）" required minlength="6">
+                </div>
+                <div class="form-group">
+                    <label class="form-label" data-i18n="confirmNewPassword">确认新密钥</label>
+                    <input type="password" id="confirmNewPassword" class="cyber-input"
+                           placeholder="再次输入新密码" required minlength="6">
+                </div>
+                <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 2rem;">
+                    <button type="button" id="cancelChangePasswordBtn" class="btn-holo btn-secondary" data-i18n="cancel">取消</button>
+                    <button type="submit" id="submitChangePasswordBtn" class="btn-holo">⚡ <span data-i18n="updatePassword">更新密钥</span></button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 消息容器 -->
+    <div id="toastContainer"></div>
+
+    <script>
+        // ====== 全局状态 ======
+        let appState = {
+            isAdmin: false,
+            products: [],
+            editingProductId: null,
+            currentPreviewUrl: '',
+            previewLoadable: false,  // 预览是否可加载
+            hasScreenshot: false     // 是否有截图
+        };
+
+        // ====== 常量 ======
+        const DEFAULT_ADMIN_PASSWORD = 'AIWorkshop@2024';
+        const SESSION_TIMEOUT = 24 * 60 * 60 * 1000;
+
+        // ====== DOM 引用 ======
+        const dom = {
+            // 登录界面
+            loginContainer: document.getElementById('loginContainer'),
+            userType: document.getElementById('userType'),
+            adminLogin: document.getElementById('adminLogin'),
+            adminPassword: document.getElementById('adminPassword'),
+            enterBtn: document.getElementById('enterBtn'),
+            neuralNetwork: document.getElementById('neuralNetwork'),
+            loginLangZhBtn: document.getElementById('loginLangZhBtn'),
+            loginLangEnBtn: document.getElementById('loginLangEnBtn'),
+
+            // 主界面
+            appContainer: document.getElementById('appContainer'),
+            userStatus: document.getElementById('userStatus'),
+            userIcon: document.getElementById('userIcon'),
+            userText: document.getElementById('userText'),
+            addProductBtn: document.getElementById('addProductBtn'),
+            settingsBtn: document.getElementById('settingsBtn'),
+            adminBar: document.getElementById('adminBar'),
+            productsGrid: document.getElementById('productsGrid'),
+            emptyState: document.getElementById('emptyState'),
+
+            // 模态框
+            productModal: document.getElementById('productModal'),
+            modalTitle: document.getElementById('modalTitle'),
+            productForm: document.getElementById('productForm'),
+            productName: document.getElementById('productName'),
+            productUrl: document.getElementById('productUrl'),
+            productDesc: document.getElementById('productDesc'),
+            charCount: document.getElementById('charCount'),
+            previewArea: document.getElementById('previewArea'),
+            retryScreenshotBtn: document.getElementById('retryScreenshotBtn'),
+            saveBtn: document.getElementById('saveBtn'),
+            cancelBtn: document.getElementById('cancelBtn'),
+            closeModalBtn: document.getElementById('closeModalBtn'),
+
+            authModal: document.getElementById('authModal'),
+            authTitle: document.getElementById('authTitle'),
+            authContent: document.getElementById('authContent'),
+            closeAuthBtn: document.getElementById('closeAuthBtn'),
+
+            // 设置界面
+            settingsModal: document.getElementById('settingsModal'),
+            settingsTitle: document.getElementById('settingsTitle'),
+            closeSettingsBtn: document.getElementById('closeSettingsBtn'),
+            langZhBtn: document.getElementById('langZhBtn'),
+            langEnBtn: document.getElementById('langEnBtn'),
+            logoutBtn: document.getElementById('logoutBtn'),
+            changePasswordItem: document.getElementById('changePasswordItem'),
+            changePasswordBtn: document.getElementById('changePasswordBtn'),
+            changePasswordModal: document.getElementById('changePasswordModal'),
+            closeChangePasswordModalBtn: document.getElementById('closeChangePasswordModalBtn'),
+            changePasswordForm: document.getElementById('changePasswordForm'),
+            cancelChangePasswordBtn: document.getElementById('cancelChangePasswordBtn'),
+
+            // 其他
+            toastContainer: document.getElementById('toastContainer'),
+            matrixRain: document.getElementById('matrixRain'),
+            dataFlowLayer: document.getElementById('dataFlowLayer')
+        };
+
+        // ====== 特效系统 ======
+        class EffectsSystem {
+            // 创建星空背景（已禁用）
+            static createStarfield() {
+                // 星空特效已禁用
+            }
+
+            static createMatrixRain() {
+                const chars = '01アイウエオカキクケコサシスセソタチツテト';
+                const container = dom.matrixRain;
+
+                for (let i = 0; i < 30; i++) { // 从100减少到30
+                    const char = document.createElement('div');
+                    char.className = 'matrix-char';
+                    char.textContent = chars[Math.floor(Math.random() * chars.length)];
+                    char.style.left = `${Math.random() * 100}%`;
+                    char.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                    char.style.animationDelay = `${Math.random() * 5}s`;
+                    char.style.fontSize = `${Math.random() * 10 + 12}px`;
+                    container.appendChild(char);
+                }
+            }
+
+            static createNeuralNetwork() {
+                const container = dom.neuralNetwork;
+                const neurons = [];
+                const neuronCount = 15;
+
+                // 创建神经元
+                for (let i = 0; i < neuronCount; i++) {
+                    const neuron = document.createElement('div');
+                    neuron.className = 'neuron';
+                    neuron.style.left = `${Math.random() * 100}%`;
+                    neuron.style.top = `${Math.random() * 100}%`;
+                    neuron.style.animationDelay = `${Math.random() * 2}s`;
+                    neurons.push(neuron);
+                    container.appendChild(neuron);
+                }
+
+                // 创建突触连接
+                for (let i = 0; i < neurons.length; i++) {
+                    for (let j = i + 1; j < neurons.length; j++) {
+                        if (Math.random() > 0.7) {
+                            const synapse = document.createElement('div');
+                            synapse.className = 'synapse';
+
+                            const neuron1 = neurons[i];
+                            const neuron2 = neurons[j];
+
+                            const x1 = parseFloat(neuron1.style.left);
+                            const y1 = parseFloat(neuron1.style.top);
+                            const x2 = parseFloat(neuron2.style.left);
+                            const y2 = parseFloat(neuron2.style.top);
+
+                            const length = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+                            const angle = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
+
+                            synapse.style.width = `${length}%`;
+                            synapse.style.left = `${x1}%`;
+                            synapse.style.top = `${y1}%`;
+                            synapse.style.transform = `rotate(${angle}deg)`;
+                            synapse.style.opacity = Math.random() * 0.3 + 0.1;
+
+                            container.appendChild(synapse);
+                        }
+                    }
+                }
+            }
+
+            static createHologramParticles() {
+                const container = document.querySelector('.hologram-particles');
+
+                // 减少粒子数量到30个
+                for (let i = 0; i < 30; i++) { // 从100减少到30
+                    const particle = document.createElement('div');
+                    particle.className = 'hologram-particle';
+
+                    const size = Math.random() * 6 + 1;
+                    particle.style.width = `${size}px`;
+                    particle.style.height = `${size}px`;
+                    particle.style.left = `${Math.random() * 100}vw`;
+                    particle.style.top = `${Math.random() * 100}vh`;
+                    particle.style.setProperty('--tx', `${Math.random() * 150 - 75}px`);
+                    particle.style.setProperty('--ty', `${Math.random() * 150 - 75}px`);
+                    particle.style.animationDuration = `${Math.random() * 15 + 10}s`;
+                    particle.style.animationDelay = `${Math.random() * 8}s`;
+
+                    // 扩展颜色选项，更多科幻色
+                    const colors = [
+                        '#00f3ff', '#9d00ff', '#ff00ff', '#4d7dff',
+                        '#00b3ff', '#8000ff', '#0080ff', '#b300ff'
+                    ];
+                    particle.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    particle.style.boxShadow = `0 0 ${size * 2}px ${particle.style.backgroundColor}`;
+
+                    // 随机动画效果
+                    const animations = ['particleFloat', 'pulse', 'float'];
+                    particle.style.animation = `${animations[Math.floor(Math.random() * animations.length)]} ${Math.random() * 10 + 10}s infinite`;
+
+                    container.appendChild(particle);
+                }
+
+                // 添加能量波粒子 - 减少到3个
+                for (let i = 0; i < 3; i++) { // 从10减少到3
+                    const energyWave = document.createElement('div');
+                    energyWave.style.position = 'fixed';
+                    energyWave.style.width = '4px';
+                    energyWave.style.height = '4px';
+                    energyWave.style.borderRadius = '50%';
+                    energyWave.style.background = 'var(--neon-cyan)';
+                    energyWave.style.boxShadow = '0 0 20px var(--neon-cyan), 0 0 40px var(--neon-purple)';
+                    energyWave.style.left = `${Math.random() * 100}vw`;
+                    energyWave.style.top = `${Math.random() * 100}vh`;
+                    energyWave.style.animation = `energyWave ${Math.random() * 3 + 2}s infinite`;
+                    energyWave.style.animationDelay = `${Math.random() * 5}s`;
+                    energyWave.style.pointerEvents = 'none';
+                    energyWave.style.zIndex = '-1';
+                    container.appendChild(energyWave);
+                }
+            }
+
+            // 创建流光线条
+            static createNeonStreams() {
+                const container = dom.dataFlowLayer;
+                const streamCount = 5; // 从15减少到5
+
+                for (let i = 0; i < streamCount; i++) {
+                    const stream = document.createElement('div');
+                    stream.className = 'neon-stream';
+                    stream.style.left = `${Math.random() * 100}vw`;
+                    stream.style.top = `${Math.random() * 100}vh`;
+                    stream.style.height = `${Math.random() * 150 + 50}px`;
+                    stream.style.animationDelay = `${Math.random() * 5}s`;
+                    stream.style.animationDuration = `${Math.random() * 3 + 2}s`;
+                    container.appendChild(stream);
+                }
+            }
+
+            static init3DBackground() {
+                const scene = new THREE.Scene();
+                const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+                const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: false }); // 关闭抗锯齿提升性能
+
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.setClearColor(0x000000, 0);
+                document.getElementById('three-bg').appendChild(renderer.domElement);
+
+                // 创建粒子系统 - 减少到500个
+                const particlesGeometry = new THREE.BufferGeometry();
+                const particlesCount = 500; // 从2000减少到500
+                const posArray = new Float32Array(particlesCount * 3);
+
+                for (let i = 0; i < particlesCount * 3; i++) {
+                    posArray[i] = (Math.random() - 0.5) * 50;
+                }
+
+                particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+
+                const particlesMaterial = new THREE.PointsMaterial({
+                    size: 0.05,
+                    color: 0x00f3ff,
+                    transparent: true,
+                    opacity: 0.6
+                });
+
+                const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+                scene.add(particlesMesh);
+
+                // 创建线框网格 - 减少分段数
+                const gridGeometry = new THREE.BoxGeometry(20, 20, 20, 5, 5, 5); // 从10,10,10减少到5,5,5
+                const gridMaterial = new THREE.MeshBasicMaterial({
+                    color: 0x00f3ff,
+                    wireframe: true,
+                    transparent: true,
+                    opacity: 0.1
+                });
+
+                const grid = new THREE.Mesh(gridGeometry, gridMaterial);
+                scene.add(grid);
+
+                camera.position.z = 15;
+
+                // 动画循环
+                function animate() {
+                    requestAnimationFrame(animate);
+
+                    particlesMesh.rotation.x += 0.0005;
+                    particlesMesh.rotation.y += 0.001;
+
+                    grid.rotation.x += 0.001;
+                    grid.rotation.y += 0.002;
+
+                    renderer.render(scene, camera);
+                }
+
+                animate();
+
+                // 窗口调整
+                window.addEventListener('resize', () => {
+                    camera.aspect = window.innerWidth / window.innerHeight;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(window.innerWidth, window.innerHeight);
+                });
+            }
+        }
+
+        // ====== 工具函数 ======
+        class Utils {
+            static showToast(message, type = 'success', duration = 3000) {
+                const toast = document.createElement('div');
+                toast.className = `cyber-toast ${type}`;
+                toast.textContent = message;
+                dom.toastContainer.appendChild(toast);
+
+                setTimeout(() => {
+                    toast.style.opacity = '0';
+                    setTimeout(() => toast.remove(), 300);
+                }, duration);
+            }
+
+            static showLoading(element) {
+                const originalContent = element.innerHTML;
+                element.innerHTML = '<div class="cyber-loading"><div></div><div></div></div>';
+                element.disabled = true;
+                return () => {
+                    element.innerHTML = originalContent;
+                    element.disabled = false;
+                };
+            }
+
+            static validateUrl(url) {
+                try {
+                    new URL(url);
+                    return true;
+                } catch {
+                    return false;
+                }
+            }
+
+            static getFaviconUrl(url) {
+                try {
+                    const domain = new URL(url).hostname;
+                    return `https://www.google.com/s2/favicons?domain=${domain}&sz=128`;
+                } catch {
+                    return null;
+                }
+            }
+        }
+
+        // ====== 数据管理 ======
+        // API服务器地址
+        const API_BASE = window.location.origin + '/api';
+
+        class DataManager {
+            static async loadProducts() {
+                // 从服务器加载
+                try {
+                    const response = await fetch(`${API_BASE}/products`);
+                    const result = await response.json();
+
+                    if (result.success) {
+                        appState.products = result.data || [];
+                        console.log('✅ 从服务器加载了', appState.products.length, '个产品');
+                    } else {
+                        console.error('加载数据失败:', result.error);
+                        appState.products = [];
+                    }
+                } catch (e) {
+                    console.error('连接服务器失败:', e);
+                    Utils.showToast('无法连接到服务器', 'error');
+                    appState.products = [];
+                }
+            }
+
+            // 添加产品到服务器
+            static async addProduct(product) {
+                try {
+                    const response = await fetch(`${API_BASE}/products`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(product)
+                    });
+                    const result = await response.json();
+
+                    if (result.success) {
+                        appState.products.push(result.data);
+                        return result.data;
+                    } else {
+                        throw new Error(result.error);
+                    }
+                } catch (e) {
+                    console.error('添加产品失败:', e);
+                    Utils.showToast('添加失败: ' + e.message, 'error');
+                    throw e;
+                }
+            }
+
+            // 更新产品到服务器
+            static async updateProduct(product) {
+                try {
+                    const productId = product.id;
+                    const response = await fetch(`${API_BASE}/products/${productId}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(product)
+                    });
+                    const result = await response.json();
+
+                    if (!result.success) {
+                        throw new Error(result.error);
+                    }
+                    return result;
+                } catch (e) {
+                    console.error('更新产品失败:', e);
+                    Utils.showToast('更新失败: ' + e.message, 'error');
+                    throw e;
+                }
+            }
+
+            // 删除产品
+            static async deleteProduct(productId) {
+                try {
+                    const response = await fetch(`${API_BASE}/products/${productId}`, {
+                        method: 'DELETE'
+                    });
+                    const result = await response.json();
+
+                    if (!result.success) {
+                        throw new Error(result.error);
+                    }
+                    return result;
+                } catch (e) {
+                    console.error('删除产品失败:', e);
+                    Utils.showToast('删除失败: ' + e.message, 'error');
+                    throw e;
+                }
+            }
+
+            // 从本地重新加载产品（刷新用）
+            static async reloadProducts() {
+                await this.loadProducts();
+                UIManager.updateUI();
+            }
+
+            static loadSession() {
+                const session = localStorage.getItem('ai-workshop-session-v2');
+                if (session) {
+                    try {
+                        const data = JSON.parse(session);
+                        if (Date.now() - data.loginTime < SESSION_TIMEOUT) {
+                            appState.isAdmin = data.isAdmin;
+                            return true;
+                        }
+                    } catch (e) {
+                        console.error('加载会话失败:', e);
+                    }
+                }
+                return false;
+            }
+
+            static saveSession() {
+                const session = {
+                    isAdmin: appState.isAdmin,
+                    loginTime: Date.now()
+                };
+                localStorage.setItem('ai-workshop-session-v2', JSON.stringify(session));
+            }
+
+            static clearSession() {
+                localStorage.removeItem('ai-workshop-session-v2');
+                appState.isAdmin = false;
+            }
+
+            // 导出数据
+            static exportData() {
+                const data = {
+                    version: '2.0',
+                    exportDate: new Date().toISOString(),
+                    products: appState.products
+                };
+
+                const jsonStr = JSON.stringify(data, null, 2);
+                const blob = new Blob([jsonStr], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `AI_workshop_products_${new Date().toISOString().split('T')[0]}.json`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+
+                Utils.showToast(`✅ 已导出 ${appState.products.length} 个产品`, 'success');
+            }
+
+            // 导入数据
+            static importData(file) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = async (e) => {
+                        try {
+                            const data = JSON.parse(e.target.result);
+
+                            // 验证数据格式
+                            if (!data.products || !Array.isArray(data.products)) {
+                                throw new Error('数据格式无效');
+                            }
+
+                            // 合并数据（不覆盖现有产品，只添加新的）
+                            let importCount = 0;
+                            for (const importedProduct of data.products) {
+                                const exists = appState.products.find(p => p.id === importedProduct.id);
+                                if (!exists) {
+                                    try {
+                                        await DataManager.addProduct(importedProduct);
+                                        importCount++;
+                                    } catch (e) {
+                                        console.error('导入产品失败:', importedProduct.name, e);
+                                    }
+                                }
+                            }
+
+                            UIManager.updateUI();
+                            resolve(importCount);
+
+                        } catch (error) {
+                            console.error('导入失败:', error);
+                            reject(error);
+                        }
+                    };
+                    reader.onerror = () => reject(new Error('文件读取失败'));
+                    reader.readAsText(file);
+                });
+            }
+        }
+
+        // ====== UI 管理器 ======
+        class UIManager {
+            static updateUI() {
+                if (appState.isAdmin) {
+                    dom.userIcon.textContent = '🤖';
+                    dom.userText.textContent = t('adminMode');
+                    dom.addProductBtn.style.display = 'inline-block';
+                    dom.adminBar.classList.add('active');
+                    dom.changePasswordItem.style.display = 'flex';  // 显示修改密码选项
+
+                    document.querySelectorAll('.holo-card').forEach(card => {
+                        card.classList.add('admin-mode');
+                    });
+                } else {
+                    dom.userIcon.textContent = '👤';
+                    dom.userText.textContent = t('guestMode');
+                    dom.addProductBtn.style.display = 'none';
+                    dom.adminBar.classList.remove('active');
+                    dom.changePasswordItem.style.display = 'none';  // 隐藏修改密码选项
+
+                    document.querySelectorAll('.holo-card').forEach(card => {
+                        card.classList.remove('admin-mode');
+                    });
+                }
+
+                UIManager.renderProducts();
+
+                if (appState.products.length === 0) {
+                    dom.emptyState.style.display = 'block';
+                    // 更新空状态文字
+                    const emptyTitle = dom.emptyState.querySelector('h3');
+                    const emptyDesc = dom.emptyState.querySelector('p');
+                    if (emptyTitle) emptyTitle.textContent = t('noProducts');
+                    if (emptyDesc) emptyDesc.textContent = t('noProductsDesc');
+                } else {
+                    dom.emptyState.style.display = 'none';
+                }
+            }
+
+            static renderProducts() {
+                dom.productsGrid.innerHTML = '';
+
+                const sortedProducts = [...appState.products].sort((a, b) =>
+                    new Date(b.createdAt) - new Date(a.createdAt)
+                );
+
+                sortedProducts.forEach((product, index) => {
+                    const card = UIManager.createProductCard(product, index);
+                    dom.productsGrid.appendChild(card);
+                });
+            }
+
+            static createProductCard(product, index) {
+                const card = document.createElement('div');
+                card.className = 'holo-card';
+                if (appState.isAdmin) {
+                    card.classList.add('admin-mode');
+                }
+                card.dataset.id = product.id;
+                card.style.setProperty('--card-index', index);
+
+                let previewHtml = '';
+                if (product.preview) {
+                    previewHtml = `<img src="${product.preview}" alt="${product.name}" loading="lazy">`;
+                } else {
+                    const favicon = Utils.getFaviconUrl(product.url);
+                    if (favicon) {
+                        previewHtml = `
+                            <div style="display: flex; align-items: center; justify-content: center; height: 100%;">
+                                <img src="${favicon}" alt="favicon" style="width: 64px; height: 64px;">
+                            </div>
+                        `;
+                    } else {
+                        previewHtml = `
+                            <div style="display: flex; align-items: center; justify-content: center; height: 100%; background: linear-gradient(45deg, var(--neon-cyan), var(--neon-purple));">
+                                <div style="font-size: 3rem; color: white;">🌐</div>
+                            </div>
+                        `;
+                    }
+                }
+
+                // 翻译产品名称和描述
+                const { name: displayName, desc: displayDesc } = translateProductName(product.name, product.description);
+                const description = displayDesc.length > 80
+                    ? displayDesc.substring(0, 80) + '...'
+                    : displayDesc;
+
+                const visitText = SettingsManager.currentLanguage === 'en' ? '⚡ Visit' : '⚡ 访问节点';
+                const editTitle = t('editProduct').replace('✏️ ', '');
+                const deleteTitle = t('deleteProduct').replace('🗑️ ', '');
+
+                card.innerHTML = `
+                    <!-- 扫描线效果 -->
+                    <div class="card-scan-line"></div>
+                    <!-- 角标装饰 -->
+                    <div class="corner-decoration corner-tl"></div>
+                    <div class="corner-decoration corner-tr"></div>
+                    <div class="corner-decoration corner-bl"></div>
+                    <div class="corner-decoration corner-br"></div>
+                    <div class="card-preview">
+                        ${previewHtml}
+                    </div>
+                    <div class="card-content">
+                        <h3>${displayName}</h3>
+                        <p>${description}</p>
+                        <div class="card-footer">
+                            <a href="${product.url}" target="_blank" class="visit-link">
+                                <span>${visitText}</span>
+                                <span>→</span>
+                            </a>
+                            <div class="card-actions">
+                                <button class="cyber-icon-btn edit-btn" title="${editTitle}">
+                                    ✏️
+                                </button>
+                                <button class="cyber-icon-btn delete-btn" title="${deleteTitle}">
+                                    🗑️
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                card.addEventListener('click', (e) => {
+                    if (!e.target.closest('.cyber-icon-btn')) {
+                        window.open(product.url, '_blank');
+                    }
+                });
+
+                const editBtn = card.querySelector('.edit-btn');
+                editBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    ProductManager.editProduct(product.id);
+                });
+
+                const deleteBtn = card.querySelector('.delete-btn');
+                deleteBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    ProductManager.deleteProduct(product.id);
+                });
+
+                return card;
+            }
+        }
+
+        // ====== 产品管理器 ======
+        class ProductManager {
+            static showAddProductModal() {
+                dom.modalTitle.textContent = t('newNode');
+                dom.productForm.reset();
+                dom.editingProductId = null;
+                dom.previewArea.innerHTML = `
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">🖥️</div>
+                    <p style="color: var(--neon-cyan); margin-bottom: 0.5rem;" data-i18n="waitingForUrl">${t('waitingForUrl')}</p>
+                    <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;" data-i18n="autoScreenshot">
+                        ${t('autoScreenshot')}
+                    </p>
+                `;
+                dom.retryScreenshotBtn.style.display = 'none';
+                dom.productModal.classList.add('active');
+            }
+
+            static editProduct(productId) {
+                const product = appState.products.find(p => p.id === productId);
+                if (!product) return;
+
+                dom.modalTitle.textContent = t('editNode');
+                dom.productName.value = product.name;
+                dom.productUrl.value = product.url;
+                dom.productDesc.value = product.description;
+                dom.editingProductId = productId;
+
+                // 如果已有截图，在神经预览接口中显示
+                if (product.preview) {
+                    dom.previewArea.innerHTML = `
+                        <div style="padding: 1rem; text-align: center; background: rgba(0,0,0,0.3); border-radius: 12px; border: 1px solid rgba(0, 243, 255, 0.3);">
+                            <img src="${product.preview}" alt="preview"
+                                 style="max-width: 100%; max-height: 400px; border-radius: 8px; border: 2px solid var(--neon-blue); box-shadow: 0 0 20px rgba(77, 125, 255, 0.4);">
+                            <p style="color: var(--neon-blue); margin-top: 1rem; font-size: 0.95rem; font-weight: 500;">
+                                ✅ 已有截图
+                            </p>
+                        </div>
+                    `;
+                    dom.retryScreenshotBtn.style.display = 'inline-block';
+                }
+
+                dom.productModal.classList.add('active');
+            }
+
+            static async saveProduct(formData) {
+                const product = {
+                    id: dom.editingProductId || `product_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+                    name: formData.get('name'),
+                    url: formData.get('url'),
+                    description: formData.get('description'),
+                    preview: formData.get('preview'),
+                    createdAt: dom.editingProductId
+                        ? appState.products.find(p => p.id === dom.editingProductId)?.createdAt || new Date().toISOString()
+                        : new Date().toISOString(),
+                    updatedAt: new Date().toISOString()
+                };
+
+                try {
+                    if (dom.editingProductId) {
+                        // 更新产品
+                        await DataManager.updateProduct(product);
+                        const index = appState.products.findIndex(p => p.id === dom.editingProductId);
+                        if (index !== -1) {
+                            appState.products[index] = product;
+                        }
+                    } else {
+                        // 添加新产品
+                        const savedProduct = await DataManager.addProduct(product);
+                        // 使用服务器返回的产品（包含服务器生成的ID）
+                    }
+
+                    UIManager.updateUI();
+                    Utils.showToast(dom.editingProductId ? '节点更新成功！' : '神经节点已创建！', 'success');
+                    ProductManager.closeProductModal();
+                } catch (e) {
+                    // 错误已在 DataManager 中处理
+                }
+            }
+
+            static async deleteProduct(productId) {
+                if (!confirm('⚠️ 警告：即将删除神经节点\n此操作不可恢复，确认继续？')) {
+                    return;
+                }
+
+                try {
+                    await DataManager.deleteProduct(productId);
+                    appState.products = appState.products.filter(p => p.id !== productId);
+                    UIManager.updateUI();
+                    Utils.showToast('节点已删除！', 'success');
+                } catch (e) {
+                    // 错误已在 DataManager 中处理
+                }
+            }
+
+
+            // 辅助方法：带超时的fetch
+            static fetchWithTimeout(url, options, timeout = 10000) {
+                return Promise.race([
+                    fetch(url, options),
+                    new Promise((_, reject) =>
+                        setTimeout(() => reject(new Error('Timeout')), timeout)
+                    )
+                ]);
+            }
+
+            // 自动智能截图 - 使用免费API
+            static async autoApiScreenshot(url) {
+                try {
+                    dom.previewArea.innerHTML = `
+                        <div style="padding: 2rem; text-align: center;">
+                            <div class="cyber-loading" style="margin: 0 auto 1rem;"><div></div><div></div></div>
+                            <p style="color: var(--neon-cyan); margin-bottom: 0.5rem;">📸 正在生成网站截图...</p>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem;">
+                                请稍候（约10-15秒）
+                            </p>
+                        </div>
+                    `;
+
+                    // 使用免费截图API
+                    const apiUrl = `https://image.thum.io/get/width/1280/crop/720/${url}`;
+
+                    const apiResponse = await this.fetchWithTimeout(apiUrl, {}, 20000);
+
+                    if (apiResponse.ok) {
+                        const blob = await apiResponse.blob();
+                        const base64 = await this.blobToBase64(blob);
+                        await this.processAndSaveScreenshot(base64, '截图完成');
+                        return;
+                    }
+
+                    throw new Error('截图API失败');
+                } catch (error) {
+                    console.error('[ERROR] 自动截图出错:', error);
+
+                    dom.previewArea.innerHTML = `
+                        <div style="padding: 2rem; text-align: center;">
+                            <div style="font-size: 4rem; margin-bottom: 1rem;">⚠️</div>
+                            <p style="color: var(--neon-pink); margin-bottom: 0.5rem; font-size: 1.1rem;">自动截图失败</p>
+                            <p style="color: rgba(255,255,255,0.7); font-size: 0.9rem; margin-bottom: 1.5rem;">
+                                ${error.message || '网络错误'}<br>
+                                <strong style="color: var(--neon-cyan);">请检查网址是否正确</strong>
+                            </p>
+                        </div>
+                    `;
+
+                    Utils.showToast('⚠️ 截图失败', 'error');
+                }
+            }
+
+            // 辅助方法：Blob转Base64
+            static blobToBase64(blob) {
+                return new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onloadend = () => resolve(reader.result);
+                    reader.onerror = reject;
+                    reader.readAsDataURL(blob);
+                });
+            }
+
+            // 辅助方法：处理并保存截图
+            static async processAndSaveScreenshot(base64Image, successMessage) {
+                // 压缩图片
+                return new Promise((resolve) => {
+                    const img = new Image();
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const maxWidth = 600;
+                        const scale = Math.min(1, maxWidth / img.width);
+                        canvas.width = img.width * scale;
+                        canvas.height = img.height * scale;
+
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                        const compressedBase64 = canvas.toDataURL('image/jpeg', 0.6);
+
+                        // 直接在previewArea显示截图
+                        dom.previewArea.innerHTML = `
+                            <div style="padding: 1.5rem; text-align: center; background: rgba(0,0,0,0.3); border-radius: 12px; border: 1px solid rgba(0, 243, 255, 0.3);">
+                                <img src="${compressedBase64}" alt="AI自动生成的截图"
+                                     style="max-width: 100%; max-height: 400px; border-radius: 8px; border: 2px solid var(--neon-blue); box-shadow: 0 0 20px rgba(77, 125, 255, 0.4);">
+                                <p style="color: var(--neon-blue); margin-top: 1rem; font-size: 0.95rem; font-weight: 500;">
+                                    ✅ ${successMessage}
+                                </p>
+                            </div>
+                        `;
+
+                        // 显示重新截图按钮
+                        dom.retryScreenshotBtn.style.display = 'inline-block';
+
+                        const hiddenInput = document.createElement('input');
+                        hiddenInput.type = 'hidden';
+                        hiddenInput.name = 'preview';
+                        hiddenInput.value = compressedBase64;
+
+                        const oldInput = dom.productForm.querySelector('input[name="preview"]');
+                        if (oldInput) oldInput.remove();
+
+                        dom.productForm.appendChild(hiddenInput);
+                        appState.hasScreenshot = true;
+
+                        Utils.showToast('✨ ' + successMessage + '！', 'success');
+                        resolve();
+                    };
+                    img.src = base64Image;
+                });
+            }
+
+            // 重新截图方法
+            static async retryAutoScreenshot() {
+                const url = dom.productUrl.value.trim();
+                if (!url || !Utils.validateUrl(url)) {
+                    Utils.showToast('请输入有效的网址', 'warning');
+                    return;
+                }
+
+                // 清空预览区域
+                dom.previewArea.innerHTML = `
+                    <div style="padding: 2rem; text-align: center;">
+                        <div class="cyber-loading" style="margin: 0 auto 1rem;"><div></div><div></div></div>
+                        <p style="color: var(--neon-cyan); margin-bottom: 0.5rem;">🤖 正在重新截图...</p>
+                    </div>
+                `;
+
+                // 调用自动截图
+                await this.autoApiScreenshot(url);
+            }
+
+            static closeProductModal() {
+                dom.productModal.classList.remove('active');
+                dom.productForm.reset();
+                dom.editingProductId = null;
+            }
+        }
+
+        // ====== 翻译系统 ======
+        const translations = {
+            zh: {
+                // 设置界面
+                settings: '⚙️ 设置',
+                settingsTitle: '⚙️ 系统设置',
+                language: '语言 / Language',
+                languageDesc: '选择界面显示语言',
+                logout: '退出登录',
+                logoutDesc: '返回登录界面',
+                confirmLogout: '退出',
+                loggedOut: '已退出登录',
+                changePassword: '修改密钥',
+                changePasswordDesc: '更新管理员访问密钥',
+                changePasswordAction: '修改',
+                changePasswordTitle: '修改神经密钥',
+                currentPassword: '当前密钥',
+                newPassword: '新密钥',
+                confirmNewPassword: '确认新密钥',
+                updatePassword: '更新密钥',
+                passwordChanged: '✅ 密钥修改成功！',
+                currentPasswordWrong: '❌ 当前密钥错误',
+                passwordsNotMatch: '❌ 两次输入的新密钥不一致',
+                passwordTooShort: '❌ 新密钥至少6位',
+                guest: '访客',
+                admin: '管理员',
+                languageSwitched: '语言已切换至中文',
+                languageSwitchedEn: 'Language switched to English',
+
+                // 认证
+                loginTitle: '🔐 神经认证',
+                systemConsole: '🤖 系统控制台',
+                neuralActivated: '⚡ 神经连接已激活',
+                havePermission: '您拥有最高系统权限',
+                changePassword: '🔑 修改密钥',
+                neuralKey: '神经密钥',
+                enterPassword: '输入管理员密码',
+                defaultKey: '默认密钥：',
+                cancel: '取消',
+                authenticate: '⚡ 认证',
+                loginSuccess: '⚡ 神经矩阵已激活！',
+                invalidKey: '❌ 密钥无效',
+
+                // 产品管理
+                newProduct: '+ 新建产品',
+                adminPanel: '管理员控制面板 - 数据已自动同步',
+                adminPanelSubtitle: '神经密钥已验证 | 权限等级：最高 | 所有设备实时共享数据',
+                productName: '节点名称',
+                productUrl: '神经链接',
+                productDesc: '节点描述',
+                descPlaceholder: '描述产品功能和特点',
+                previewInterface: '🌐 神经预览接口',
+                waitingForUrl: '等待输入链接',
+                autoScreenshot: '输入网址后将自动截图',
+                retryScreenshot: '🔄 不满意？重新截图',
+                snapshotPreview: '快照预览',
+                waitingForSnapshot: '等待捕获快照...',
+                characters: '字符',
+                takeScreenshot: '📸 AI自动截图',
+                save: '💾 保存节点',
+                saveProduct: '💾 保存产品',
+                cancelEdit: '取消编辑',
+                editProduct: '✏️ 编辑',
+                deleteProduct: '🗑️ 删除',
+                screenshotGenerated: 'AI截图已生成',
+                loading: '截图中...',
+
+                // 提示消息
+                allFieldsRequired: '请填写所有字段',
+                validUrl: '请输入有效链接',
+                screenshotRequired: '请先获取产品截图',
+                productSaved: '产品已保存',
+                productDeleted: '产品已删除',
+                adminRequired: '需要管理员权限',
+
+                // 空状态
+                noProducts: '暂无产品数据',
+                noProductsDesc: '点击"新建产品"添加第一个AI产品',
+
+                // 按钮
+                confirm: '确认',
+                close: '关闭',
+                submit: '提交',
+
+                // 用户状态
+                guestMode: '访客模式',
+                adminMode: '管理员模式',
+
+                // 产品模态框
+                newNode: '🧠 新建神经节点',
+                editNode: '⚡ 编辑神经节点'
+            },
+            en: {
+                // Settings
+                settings: '⚙️ Settings',
+                settingsTitle: '⚙️ Settings',
+                language: 'Language / 语言',
+                languageDesc: 'Select interface language',
+                logout: 'Logout',
+                logoutDesc: 'Return to login screen',
+                confirmLogout: 'Logout',
+                loggedOut: 'Logged out',
+                changePassword: 'Change Password',
+                changePasswordDesc: 'Update admin access key',
+                changePasswordAction: 'Change',
+                changePasswordTitle: 'Change Neural Key',
+                currentPassword: 'Current Key',
+                newPassword: 'New Key',
+                confirmNewPassword: 'Confirm New Key',
+                updatePassword: 'Update Key',
+                passwordChanged: '✅ Password changed successfully!',
+                currentPasswordWrong: '❌ Current key is incorrect',
+                passwordsNotMatch: '❌ New keys do not match',
+                passwordTooShort: '❌ New key must be at least 6 characters',
+                guest: 'Guest',
+                admin: 'Administrator',
+                languageSwitched: '语言已切换至中文',
+                languageSwitchedEn: 'Language switched to English',
+
+                // Authentication
+                loginTitle: '🔐 Neural Authentication',
+                systemConsole: '🤖 System Console',
+                neuralActivated: '⚡ Neural Connection Activated',
+                havePermission: 'You have full system privileges',
+                changePassword: '🔑 Change Password',
+                neuralKey: 'Neural Key',
+                enterPassword: 'Enter admin password',
+                defaultKey: 'Default key: ',
+                cancel: 'Cancel',
+                authenticate: '⚡ Authenticate',
+                loginSuccess: '⚡ Neural Matrix Activated!',
+                invalidKey: '❌ Invalid key',
+
+                // Product Management
+                newProduct: '+ New Product',
+                adminPanel: 'Admin Panel - Data auto-synced',
+                adminPanelSubtitle: 'Neural key verified | Permission level: Maximum | Real-time data sharing across all devices',
+                productName: 'Node Name',
+                productUrl: 'Neural Link',
+                productDesc: 'Node Description',
+                descPlaceholder: 'Describe product features',
+                previewInterface: '🌐 Neural Preview Interface',
+                waitingForUrl: 'Waiting for URL input',
+                autoScreenshot: 'Screenshot will be taken automatically',
+                retryScreenshot: '🔄 Not satisfied? Retry',
+                snapshotPreview: 'Snapshot Preview',
+                waitingForSnapshot: 'Waiting for snapshot...',
+                characters: 'characters',
+                takeScreenshot: '📸 AI Screenshot',
+                save: '💾 Save Node',
+                saveProduct: '💾 Save Product',
+                cancelEdit: 'Cancel Edit',
+                editProduct: '✏️ Edit',
+                deleteProduct: '🗑️ Delete',
+                screenshotGenerated: 'AI screenshot generated',
+                loading: 'Capturing...',
+
+                // Toast Messages
+                allFieldsRequired: 'Please fill all fields',
+                validUrl: 'Please enter a valid URL',
+                screenshotRequired: 'Please get product screenshot first',
+                productSaved: 'Product saved',
+                productDeleted: 'Product deleted',
+                adminRequired: 'Admin privileges required',
+
+                // Empty State
+                noProducts: 'No products yet',
+                noProductsDesc: 'Click "New Product" to add your first AI product',
+
+                // Buttons
+                confirm: 'Confirm',
+                close: 'Close',
+                submit: 'Submit',
+
+                // User Status
+                guestMode: 'Guest Mode',
+                adminMode: 'Admin Mode',
+
+                // Product Modal
+                newNode: '🧠 New Neural Node',
+                editNode: '⚡ Edit Neural Node'
+            }
+        };
+
+        // 产品翻译字典 - 用于翻译现有产品数据
+        const productTranslations = {
+            '量子图像生成器': {
+                en: 'Quantum Image Generator',
+                descEn: 'Next-generation AI image generation system based on quantum computing, supporting 8K ultra HD output'
+            },
+            '神经对话助手': {
+                en: 'Neural Chat Assistant',
+                descEn: 'Multimodal AI conversation system with emotion recognition, supporting real-time voice interaction'
+            },
+            '深度学习框架': {
+                en: 'Deep Learning Framework',
+                descEn: 'High-efficiency neural network training framework supporting distributed computing and model optimization'
+            }
+        };
+
+        function t(key) {
+            return translations[SettingsManager.currentLanguage][key] || key;
+        }
+
+        // 更新所有带有data-i18n属性的元素
+        function updateAllTranslations() {
+            // 更新所有带data-i18n属性的元素
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                const translation = t(key);
+                if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                    el.placeholder = translation;
+                } else {
+                    el.textContent = translation;
+                }
+            });
+
+            // 更新所有带data-placeholder-i18n属性的元素
+            document.querySelectorAll('[data-placeholder-i18n]').forEach(el => {
+                const key = el.getAttribute('data-placeholder-i18n');
+                el.placeholder = t(key);
+            });
+
+            // 更新管理员面板文字
+            const adminStatus = document.getElementById('adminStatus');
+            if (adminStatus) {
+                adminStatus.textContent = t('adminPanel');
+            }
+        }
+
+        function translateProductName(name, desc) {
+            if (SettingsManager.currentLanguage === 'en') {
+                const translation = productTranslations[name];
+                if (translation) {
+                    return {
+                        name: translation.en,
+                        desc: translation.descEn
+                    };
+                }
+                // 如果没有翻译，返回原文
+                return { name, desc };
+            }
+            return { name, desc };
+        }
+
+        // ====== 设置管理器 ======
+        class SettingsManager {
+            static currentLanguage = 'zh';
+
+            static openSettings() {
+                dom.settingsModal.classList.add('active');
+                SettingsManager.updateUI();
+            }
+
+            static closeSettings() {
+                dom.settingsModal.classList.remove('active');
+            }
+
+            static updateUI() {
+                // 更新语言按钮状态
+                dom.langZhBtn.classList.toggle('active', SettingsManager.currentLanguage === 'zh');
+                dom.langEnBtn.classList.toggle('active', SettingsManager.currentLanguage === 'en');
+
+                // 更新设置界面文字
+                dom.settingsTitle.textContent = t('settingsTitle');
+            }
+
+            static setLanguage(lang) {
+                SettingsManager.currentLanguage = lang;
+                SettingsManager.updateUI();
+
+                // 更新整个界面
+                updateAllTranslations();
+                UIManager.updateUI();
+                UIManager.renderProducts();
+
+                // 如果在登录界面，也更新登录界面的语言
+                if (dom.loginContainer.style.display !== 'none') {
+                    updateLoginLanguage();
+                }
+
+                // 显示提示
+                const message = lang === 'zh' ? t('languageSwitched') : t('languageSwitchedEn');
+                Utils.showToast(message, 'success');
+            }
+
+            static logout() {
+                // 先关闭设置模态框
+                SettingsManager.closeSettings();
+
+                // 退出登录，返回登录界面
+                appState.isAdmin = false;
+                DataManager.clearSession();
+
+                // 隐藏应用容器，显示登录界面
+                dom.appContainer.style.display = 'none';
+                dom.loginContainer.style.display = 'flex';
+                dom.loginContainer.style.flexDirection = 'column';
+                dom.loginContainer.style.justifyContent = 'center';
+                dom.loginContainer.style.alignItems = 'center';
+
+                // 重置为访客模式
+                dom.userType.value = 'guest';
+                dom.adminLogin.style.display = 'none';
+                dom.adminPassword.value = '';
+
+                // 更新登录界面的语言
+                updateLoginLanguage();
+
+                Utils.showToast(t('loggedOut'), 'success');
+            }
+
+            // 打开修改密码模态框
+            static openChangePassword() {
+                dom.changePasswordModal.classList.add('active');
+                dom.changePasswordForm.reset();
+            }
+
+            // 关闭修改密码模态框
+            static closeChangePassword() {
+                dom.changePasswordModal.classList.remove('active');
+                dom.changePasswordForm.reset();
+            }
+
+            // 修改密码
+            static changePassword(currentPass, newPass) {
+                // 从 localStorage 获取当前保存的密码
+                const savedPassword = localStorage.getItem('ai-workshop-admin-password') || DEFAULT_ADMIN_PASSWORD;
+
+                if (currentPass !== savedPassword) {
+                    Utils.showToast(t('currentPasswordWrong'), 'error');
+                    return false;
+                }
+
+                if (newPass.length < 6) {
+                    Utils.showToast(t('passwordTooShort'), 'error');
+                    return false;
+                }
+
+                // 保存新密码到 localStorage
+                localStorage.setItem('ai-workshop-admin-password', newPass);
+                Utils.showToast(t('passwordChanged'), 'success');
+                SettingsManager.closeChangePassword();
+                return true;
+            }
+        }
+
+        // 更新登录界面的语言
+        function updateLoginLanguage() {
+            const lang = SettingsManager.currentLanguage;
+
+            // 更新语言按钮状态
+            dom.loginLangZhBtn.classList.toggle('active', lang === 'zh');
+            dom.loginLangEnBtn.classList.toggle('active', lang === 'en');
+
+            const loginTitle = dom.loginContainer.querySelector('h1');
+            if (loginTitle) {
+                loginTitle.textContent = lang === 'en'
+                    ? '🚀 AI Workshop | Neural Matrix Product Wall'
+                    : '🚀 AI Workshop | 神经矩阵产品墙';
+            }
+
+            const enterBtn = dom.enterBtn;
+            if (enterBtn) {
+                enterBtn.textContent = lang === 'en' ? '🔓 Activate System' : '🔓 激活系统';
+            }
+
+            // 更新访客/管理员选择
+            const guestOption = dom.userType.querySelector('option[value="guest"]');
+            const adminOption = dom.userType.querySelector('option[value="admin"]');
+            if (guestOption) {
+                guestOption.textContent = lang === 'en' ? '🧑‍💼 Guest Mode - View Only' : '🧑‍💼 访客模式 - 仅浏览';
+            }
+            if (adminOption) {
+                adminOption.textContent = lang === 'en' ? '🤖 Administrator Mode - Full Control' : '🤖 管理员模式 - 完全控制';
+            }
+
+            // 更新表单标签
+            const modeLabel = dom.loginContainer.querySelector('.form-label');
+            if (modeLabel) {
+                modeLabel.textContent = lang === 'en' ? 'Access Mode' : '访问模式';
+            }
+
+            // 更新密码标签
+            const passwordLabels = dom.loginContainer.querySelectorAll('label');
+            passwordLabels.forEach(label => {
+                if (label.textContent.includes('神经密钥') || label.textContent.includes('Neural Key')) {
+                    label.textContent = lang === 'en' ? 'Neural Key' : '神经密钥';
+                }
+            });
+
+            // 更新系统状态文字
+            const statusText = dom.loginContainer.querySelector('.form-group + div > div > strong');
+            if (statusText) {
+                statusText.textContent = lang === 'en' ? 'System Ready' : '系统准备就绪';
+            }
+
+            const statusDesc = dom.loginContainer.querySelector('.form-group + div > div > span');
+            if (statusDesc) {
+                statusDesc.textContent = lang === 'en'
+                    ? 'Neural interface connected, ready to load product matrix'
+                    : '神经接口已连接，准备加载产品矩阵';
+            }
+        }
+
+        // ====== 认证管理器 ======
+        class AuthManager {
+            static showAuthModal() {
+                if (appState.isAdmin) {
+                    dom.authTitle.textContent = '🤖 系统控制台';
+                    dom.authContent.innerHTML = `
+                        <div style="text-align: center; padding: 1rem;">
+                            <div style="font-size: 4rem; margin-bottom: 1rem;">⚡</div>
+                            <h3 style="color: var(--neon-cyan); margin-bottom: 0.5rem;">神经连接已激活</h3>
+                            <p style="color: rgba(255,255,255,0.7); margin-bottom: 1.5rem;">
+                                您拥有最高系统权限
+                            </p>
+                            <div style="display: flex; gap: 1rem; justify-content: center;">
+                                <button id="changePasswordBtn" class="btn-holo btn-secondary">🔑 修改密钥</button>
+                            </div>
+                        </div>
+                    `;
+
+                    document.getElementById('changePasswordBtn')?.addEventListener('click', AuthManager.showChangePassword);
+                } else {
+                    dom.authTitle.textContent = '🔐 神经认证';
+                    dom.authContent.innerHTML = `
+                        <form id="loginForm" style="padding: 1rem 0;">
+                            <div class="form-group">
+                                <label class="form-label">神经密钥</label>
+                                <input type="password" id="loginPassword" class="cyber-input"
+                                       placeholder="输入管理员密码">
+                            </div>
+                            <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem;">
+                                <button type="button" id="cancelLoginBtn" class="btn-holo btn-secondary">取消</button>
+                                <button type="submit" id="submitLoginBtn" class="btn-holo">⚡ 认证</button>
+                            </div>
+                        </form>
+                    `;
+
+                    const loginForm = document.getElementById('loginForm');
+                    loginForm.addEventListener('submit', (e) => {
+                        e.preventDefault();
+                        const password = document.getElementById('loginPassword').value;
+                        AuthManager.login(password);
+                    });
+
+                    document.getElementById('cancelLoginBtn')?.addEventListener('click', () => {
+                        dom.authModal.classList.remove('active');
+                    });
+                }
+
+                dom.authModal.classList.add('active');
+            }
+
+            static showChangePassword() {
+                dom.authContent.innerHTML = `
+                    <form id="changePasswordForm" style="padding: 1rem 0;">
+                        <div class="form-group">
+                            <label class="form-label">当前密钥</label>
+                            <input type="password" id="currentPassword" class="cyber-input"
+                                   placeholder="输入当前密码">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">新密钥</label>
+                            <input type="password" id="newPassword" class="cyber-input"
+                                   placeholder="输入新密码">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">确认新密钥</label>
+                            <input type="password" id="confirmPassword" class="cyber-input"
+                                   placeholder="再次输入新密码">
+                        </div>
+                        <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-top: 1.5rem;">
+                            <button type="button" id="cancelChangeBtn" class="btn-holo btn-secondary">返回</button>
+                            <button type="submit" id="submitChangeBtn" class="btn-holo">⚡ 更新密钥</button>
+                        </div>
+                    </form>
+                `;
+
+                document.getElementById('changePasswordForm')?.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const current = document.getElementById('currentPassword').value;
+                    const newPass = document.getElementById('newPassword').value;
+                    const confirmPass = document.getElementById('confirmPassword').value;
+
+                    if (current !== DEFAULT_ADMIN_PASSWORD) {
+                        Utils.showToast('当前密钥错误', 'error');
+                        return;
+                    }
+
+                    if (newPass !== confirmPass) {
+                        Utils.showToast('两次输入的密钥不一致', 'error');
+                        return;
+                    }
+
+                    if (newPass.length < 6) {
+                        Utils.showToast('新密钥至少6位', 'error');
+                        return;
+                    }
+
+                    Utils.showToast('密钥更新成功！请记住新密钥', 'success');
+                    setTimeout(() => {
+                        dom.authModal.classList.remove('active');
+                    }, 1500);
+                });
+
+                document.getElementById('cancelChangeBtn')?.addEventListener('click', AuthManager.showAuthModal);
+            }
+
+            static closeAuthModal() {
+                dom.authModal.classList.remove('active');
+            }
+
+            static login(password) {
+                // 从 localStorage 获取保存的密码，如果没有则使用默认密码
+                const savedPassword = localStorage.getItem('ai-workshop-admin-password') || DEFAULT_ADMIN_PASSWORD;
+
+                if (password === savedPassword) {
+                    appState.isAdmin = true;
+                    DataManager.saveSession();
+                    UIManager.updateUI();
+                    AuthManager.closeAuthModal();
+                    Utils.showToast('⚡ 神经认证成功！', 'success');
+                } else {
+                    Utils.showToast('认证失败，密钥错误', 'error');
+                }
+            }
+
+            static logout() {
+                DataManager.clearSession();
+                UIManager.updateUI();
+                AuthManager.closeAuthModal();
+                Utils.showToast('神经连接已断开', 'success');
+            }
+        }
+
+        // ====== 事件监听器 ======
+        class EventManager {
+            static setup() {
+                // 登录界面
+                dom.userType.addEventListener('change', (e) => {
+                    dom.adminLogin.style.display = e.target.value === 'admin' ? 'block' : 'none';
+                });
+
+                // 登录界面语言切换
+                dom.loginLangZhBtn.addEventListener('click', () => {
+                    SettingsManager.setLanguage('zh');
+                });
+
+                dom.loginLangEnBtn.addEventListener('click', () => {
+                    SettingsManager.setLanguage('en');
+                });
+
+                dom.enterBtn.addEventListener('click', () => {
+                    if (dom.userType.value === 'admin') {
+                        const password = dom.adminPassword.value;
+                        // 从 localStorage 获取保存的密码，如果没有则使用默认密码
+                        const savedPassword = localStorage.getItem('ai-workshop-admin-password') || DEFAULT_ADMIN_PASSWORD;
+
+                        if (password === savedPassword) {
+                            appState.isAdmin = true;
+                            DataManager.saveSession();
+                            dom.loginContainer.style.display = 'none';
+                            dom.appContainer.style.display = 'block';
+                            UIManager.updateUI();
+                            Utils.showToast(SettingsManager.currentLanguage === 'en' ? '⚡ Neural Matrix Activated!' : '⚡ 神经矩阵已激活！', 'success');
+                        } else {
+                            Utils.showToast(SettingsManager.currentLanguage === 'en' ? '❌ Invalid key' : '❌ 密钥无效', 'error');
+                        }
+                    } else {
+                        appState.isAdmin = false;
+                        dom.loginContainer.style.display = 'none';
+                        dom.appContainer.style.display = 'block';
+                        UIManager.updateUI();
+                    }
+                });
+
+                // 管理员按钮
+                dom.settingsBtn.addEventListener('click', SettingsManager.openSettings);
+                dom.addProductBtn.addEventListener('click', ProductManager.showAddProductModal);
+
+                // 设置界面事件
+                dom.closeSettingsBtn.addEventListener('click', SettingsManager.closeSettings);
+                dom.langZhBtn.addEventListener('click', () => SettingsManager.setLanguage('zh'));
+                dom.langEnBtn.addEventListener('click', () => SettingsManager.setLanguage('en'));
+                dom.logoutBtn.addEventListener('click', SettingsManager.logout);
+
+                // 修改密码事件
+                dom.changePasswordBtn.addEventListener('click', SettingsManager.openChangePassword);
+                dom.closeChangePasswordModalBtn.addEventListener('click', SettingsManager.closeChangePassword);
+                dom.cancelChangePasswordBtn.addEventListener('click', SettingsManager.closeChangePassword);
+                dom.changePasswordForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const currentPass = document.getElementById('currentPassword').value;
+                    const newPass = document.getElementById('newPassword').value;
+                    const confirmPass = document.getElementById('confirmNewPassword').value;
+
+                    if (newPass !== confirmPass) {
+                        Utils.showToast(t('passwordsNotMatch'), 'error');
+                        return;
+                    }
+
+                    SettingsManager.changePassword(currentPass, newPass);
+                });
+
+                // 点击模态框背景关闭
+                dom.changePasswordModal.addEventListener('click', (e) => {
+                    if (e.target === dom.changePasswordModal) {
+                        SettingsManager.closeChangePassword();
+                    }
+                });
+
+                // 产品表单
+                dom.productForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+
+                    if (!appState.isAdmin) {
+                        Utils.showToast('需要管理员权限', 'error');
+                        return;
+                    }
+
+                    const name = dom.productName.value.trim();
+                    const url = dom.productUrl.value.trim();
+                    const description = dom.productDesc.value.trim();
+
+                    if (!name || !url || !description) {
+                        Utils.showToast('请填写所有字段', 'error');
+                        return;
+                    }
+
+                    if (!Utils.validateUrl(url)) {
+                        Utils.showToast('请输入有效链接', 'error');
+                        return;
+                    }
+
+                    // 验证预览图 - 必须有预览图才能保存
+                    const previewInput = dom.productForm.querySelector('input[name="preview"]');
+                    const previewData = previewInput ? previewInput.value : null;
+
+                    // 严格检查：必须有截图数据
+                    if (!previewData || previewData.trim() === '' || previewData.length < 100) {
+                        Utils.showToast('⚠️ 缺少预览图，请等待系统自动截图完成后再保存！', 'error');
+                        return;
+                    }
+
+                    const formData = new FormData();
+                    formData.append('name', name);
+                    formData.append('url', url);
+                    formData.append('description', description);
+                    formData.append('preview', previewData);
+
+                    ProductManager.saveProduct(formData);
+                });
+                dom.retryScreenshotBtn.addEventListener('click', () => ProductManager.retryAutoScreenshot());
+
+                // 自动智能截图 - URL输入完成后自动截图
+                let autoScreenshotTimer = null;
+                dom.productUrl.addEventListener('blur', async (e) => {
+                    const url = e.target.value.trim();
+
+                    // 如果URL为空或无效，不执行截图
+                    if (!url || !Utils.validateUrl(url)) {
+                        return;
+                    }
+
+                    // 清除之前的定时器
+                    if (autoScreenshotTimer) {
+                        clearTimeout(autoScreenshotTimer);
+                    }
+
+                    // 立即开始自动截图
+                    autoScreenshotTimer = setTimeout(async () => {
+                        await ProductManager.autoApiScreenshot(url);
+                    }, 500);
+                });
+
+                // 字符计数
+                dom.productDesc.addEventListener('input', (e) => {
+                    const length = e.target.value.length;
+                    dom.charCount.textContent = length;
+                    if (length > 150) {
+                        dom.charCount.style.color = 'var(--neon-pink)';
+                    } else if (length > 120) {
+                        dom.charCount.style.color = 'var(--neon-cyan)';
+                    } else {
+                        dom.charCount.style.color = 'var(--neon-cyan)';
+                    }
+                });
+
+                // 模态框关闭
+                dom.closeModalBtn.addEventListener('click', ProductManager.closeProductModal);
+                dom.cancelBtn.addEventListener('click', ProductManager.closeProductModal);
+                dom.closeAuthBtn.addEventListener('click', AuthManager.closeAuthModal);
+
+                // 外部点击关闭
+                dom.productModal.addEventListener('click', (e) => {
+                    if (e.target === dom.productModal) {
+                        ProductManager.closeProductModal();
+                    }
+                });
+
+                dom.authModal.addEventListener('click', (e) => {
+                    if (e.target === dom.authModal) {
+                        AuthManager.closeAuthModal();
+                    }
+                });
+
+                // 快捷键
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        ProductManager.closeProductModal();
+                        AuthManager.closeAuthModal();
+                    }
+                });
+            }
+        }
+
+        // ====== 初始化 ======
+        async function init() {
+            // 初始化特效
+            EffectsSystem.createMatrixRain();
+            EffectsSystem.createNeuralNetwork();
+            EffectsSystem.createHologramParticles();
+            EffectsSystem.createNeonStreams();
+            EffectsSystem.init3DBackground();
+
+            // 加载数据（等待服务器响应）
+            await DataManager.loadProducts();
+
+            // 检查会话
+            const hasSession = DataManager.loadSession();
+            if (hasSession) {
+                dom.loginContainer.style.display = 'none';
+                dom.appContainer.style.display = 'block';
+            }
+
+            // 设置事件
+            EventManager.setup();
+
+            // 更新登录界面语言
+            updateLoginLanguage();
+
+            // 初始UI
+            UIManager.updateUI();
+        }
+
+
+
+
+        // 启动应用
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
